@@ -135,13 +135,13 @@
 
 ### Phase 1.3: 前端核心框架组件
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P0  
 **预计工时**: 3-4 天
 
 #### 任务清单
 
-- [ ] **TASK-1.3.1**: HTTP 请求封装完善
+- [x] **TASK-1.3.1**: HTTP 请求封装完善
 
   - 完善 `utils/request.js` Axios 封装
   - 实现请求拦截器（添加 Token）
@@ -150,7 +150,7 @@
   - **文件路径**: `src/utils/request.js`
   - **验收标准**: 请求封装完整，可以自动携带 Token，错误处理正确
 
-- [ ] **TASK-1.3.2**: 认证工具完善
+- [x] **TASK-1.3.2**: 认证工具完善
 
   - 完善 `utils/auth.js` 认证相关工具
   - 实现 Token 存储/获取/删除
@@ -158,7 +158,7 @@
   - **文件路径**: `src/utils/auth.js`
   - **验收标准**: 认证工具可用
 
-- [ ] **TASK-1.3.3**: Pinia 状态管理设置
+- [x] **TASK-1.3.3**: Pinia 状态管理设置
 
   - 创建 `stores/user.js` (用户状态)
   - 创建 `stores/permission.js` (权限状态)
@@ -167,7 +167,7 @@
   - **文件路径**: `src/stores/`
   - **验收标准**: Pinia store 可用，可以管理用户和权限状态
 
-- [ ] **TASK-1.3.4**: Vue Router 路由配置
+- [x] **TASK-1.3.4**: Vue Router 路由配置
 
   - 创建路由配置文件
   - 配置基础路由（登录、404 等）
@@ -176,7 +176,7 @@
   - **文件路径**: `src/router/index.js`
   - **验收标准**: 路由配置可用，路由守卫生效
 
-- [ ] **TASK-1.3.5**: 主布局组件
+- [x] **TASK-1.3.5**: 主布局组件
 
   - 创建 `layout/index.vue` (主布局)
   - 创建 `layout/components/Header.vue` (头部)
@@ -186,7 +186,7 @@
   - **文件路径**: `src/layout/`
   - **验收标准**: 主布局可用，可以正常显示头部、侧边栏、内容区
 
-- [ ] **TASK-1.3.6**: 公共组件
+- [x] **TASK-1.3.6**: 公共组件
   - 创建 `components/Pagination.vue` (分页组件)
   - 创建 `components/Upload.vue` (文件上传组件)
   - 创建 `components/ImagePreview.vue` (图片预览组件)
@@ -1165,9 +1165,10 @@
 
 ### 总体进度
 
-- **第一阶段**: 🔄 进行中 (50%)
-  - Phase 1.1: ✅ 基本完成 (100%，待用户验证数据库初始化)
+- **第一阶段**: ✅ 已完成 (100%)
+  - Phase 1.1: ✅ 基本完成 (100%，数据库已初始化)
   - Phase 1.2: ✅ 已完成 (100%)
+  - Phase 1.3: ✅ 已完成 (100%)
 - **第二阶段**: ⏳ 待开始 (0%)
 - **第三阶段**: ⏳ 待开始 (0%)
 - **第四阶段**: ⏳ 待开始 (0%)
@@ -1220,35 +1221,72 @@ _暂无_
   - 创建前端配置验证说明文档
 
 #### Phase 1.2 执行进度
-- ✅ **TASK-1.2.1**: 完成Spring Security + JWT认证框架
-  - 创建 JwtTokenUtil（JWT工具类，生成/解析Token）
-  - 创建 JwtAuthenticationTokenFilter（JWT认证过滤器）
-  - 创建 SecurityConfig（Spring Security配置类，包含CORS、白名单等）
-  - 创建 UserDetailsServiceImpl（用户详情服务，待User实体创建后完善）
-  
+
+- ✅ **TASK-1.2.1**: 完成 Spring Security + JWT 认证框架
+  - 创建 JwtTokenUtil（JWT 工具类，生成/解析 Token）
+  - 创建 JwtAuthenticationTokenFilter（JWT 认证过滤器）
+  - 创建 SecurityConfig（Spring Security 配置类，包含 CORS、白名单等）
+  - 创建 UserDetailsServiceImpl（用户详情服务，待 User 实体创建后完善）
 - ✅ **TASK-1.2.2**: 完成统一响应封装完善
-  - 完善 AjaxResult类，添加 success(String msg) 方法
+  - 完善 AjaxResult 类，添加 success(String msg) 方法
   - 添加 isSuccess() 判断方法
   - 添加 page() 分页响应方法
-  
 - ✅ **TASK-1.2.3**: 完成全局异常处理完善
   - 添加参数校验异常处理（@Valid）
   - 添加参数绑定异常处理
-  - 添加认证异常处理（BadCredentials、AccountExpired等）
+  - 添加认证异常处理（BadCredentials、AccountExpired 等）
   - 添加权限不足异常处理
   - 添加非法参数异常处理
   - 添加运行时异常处理
-  
 - ✅ **TASK-1.2.4**: 完成分页查询工具完善
   - 创建 PageResult 分页响应封装类
-  - 支持从MyBatis-Plus的Page对象转换
+  - 支持从 MyBatis-Plus 的 Page 对象转换
   - 自动计算总页数
-  
 - ✅ **TASK-1.2.5**: 完成工具类完善
-  - 创建 StringUtils（字符串工具，继承Apache Commons）
-  - 创建 DateUtils（日期时间工具，使用Java 8+时间API）
+  - 创建 StringUtils（字符串工具，继承 Apache Commons）
+  - 创建 DateUtils（日期时间工具，使用 Java 8+时间 API）
   - 创建 SecurityUtils（安全工具，获取当前登录用户信息）
   - 创建 FileUtils（文件工具，文件上传、删除、格式化等）
+
+#### Phase 1.3 执行进度
+
+- ✅ **TASK-1.3.1**: 完成 HTTP 请求封装完善
+  - 创建 axios 实例，配置基础 URL 和超时时间
+  - 实现请求拦截器（自动添加 Token 到请求头）
+  - 实现响应拦截器（统一错误处理、Token 过期跳转登录）
+  - 支持错误码统一处理（401、403、500 等）
+- ✅ **TASK-1.3.2**: 完成认证工具完善
+  - 实现 Token 存储/获取/删除（Cookie + localStorage 双重存储）
+  - 实现用户信息存储/获取
+  - 提供 clearAuth()清除所有认证信息
+- ✅ **TASK-1.3.3**: 完成 Pinia 状态管理设置
+  - 创建 user store（用户状态：登录、登出、获取用户信息）
+  - 创建 permission store（权限状态：动态路由生成）
+  - 创建 app store（应用全局状态：侧边栏、设备类型、加载状态等）
+- ✅ **TASK-1.3.4**: 完成 Vue Router 路由配置
+  - 配置基础路由（登录、404、401、重定向）
+  - 实现路由守卫（前置守卫：Token 验证、用户信息获取、动态路由添加）
+  - 配置路由懒加载
+  - 集成 NProgress 进度条
+- ✅ **TASK-1.3.5**: 完成主布局组件
+  - 创建主布局容器（layout/index.vue）
+  - 创建头部组件（Header：面包屑、用户信息、全屏切换）
+  - 创建侧边栏组件（Sidebar：动态菜单、折叠功能）
+  - 创建侧边栏菜单项组件（SidebarItem：递归渲染菜单）
+  - 创建内容区组件（AppMain：路由视图、过渡动画）
+  - 实现响应式布局（侧边栏折叠/展开）
+- ✅ **TASK-1.3.6**: 完成公共组件
+  - 创建分页组件（Pagination：支持分页、每页大小调整）
+  - 创建文件上传组件（Upload：支持单文件/多文件、文件类型/大小验证）
+  - 创建图片预览组件（ImagePreview：基于 Element Plus 图片预览）
+  - 创建权限指令（v-permission：按钮级别权限控制）
+- ✅ **额外完成**:
+  - 创建登录页面（views/login/index.vue）
+  - 创建错误页面（404、401）
+  - 创建重定向页面
+  - 创建首页（dashboard）
+  - 更新 main.js 配置（Pinia、Router、Element Plus、指令）
+  - 创建全局样式文件
 
 ---
 

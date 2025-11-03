@@ -4,6 +4,13 @@ import pluginVue from 'eslint-plugin-vue'
 // 项目使用纯JavaScript，不涉及TypeScript
 
 export default [
+  // 忽略文件
+  {
+    ignores: ['dist/**', 'dist-ssr/**', 'coverage/**', 'node_modules/**']
+  },
+  // Vue文件配置
+  ...pluginVue.configs['flat/essential'],
+  // 全局配置
   {
     files: ['**/*.{js,mjs,cjs,vue}'],
     languageOptions: {
@@ -15,24 +22,18 @@ export default [
         defineEmits: 'readonly',
         defineExpose: 'readonly',
         withDefaults: 'readonly',
-      },
-    },
-    plugins: {
-      vue: pluginVue,
+        // 浏览器全局变量
+        console: 'readonly',
+        window: 'readonly',
+        document: 'readonly'
+      }
     },
     rules: {
-      ...pluginVue.configs['flat/essential'].rules,
-      // 自定义规则
-      'vue/multi-word-component-names': 'off', // 允许单单词组件名
-      'no-console': 'warn', // 警告console
-      'no-debugger': 'warn', // 警告debugger
-    },
-    ignores: [
-      '**/dist/**',
-      '**/dist-ssr/**',
-      '**/coverage/**',
-      '**/node_modules/**',
-    ],
-  },
+      // 覆盖Vue插件规则
+      'vue/multi-word-component-names': 'off',
+      'no-console': 'warn',
+      'no-debugger': 'warn'
+    }
+  }
 ]
 
