@@ -1,9 +1,9 @@
-# ????
+# 项目信息
 research:
-  name: ????????
+  name: 高校科研管理系统
   version: 1.0.0
 
-# ?????
+# 服务器配置
 server:
   port: 8080
   servlet:
@@ -11,27 +11,26 @@ server:
   tomcat:
     uri-encoding: UTF-8
 
-# Spring??
+# Spring配置
 spring:
   profiles:
     active: dev
   application:
     name: research-management
-  # ?????
+  # 数据源配置
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/research_management?useUnicode=true&characterEncoding=utf8&zeroDateTimeBehavior=convertToNull&useSSL=true&serverTimezone=GMT%2B8
     username: root
     password: 123456
 
-
-  # ??????
+  # 文件上传配置
   servlet:
     multipart:
       max-file-size: 10MB
       max-request-size: 20MB
   data:
-    # Redis??
+    # Redis配置
     redis:
       host: localhost
       port: 6379
@@ -45,7 +44,7 @@ spring:
         max-idle: 10
         min-idle: 0
 
-# MyBatis-Plus??
+# MyBatis-Plus配置
 mybatis-plus:
   mapper-locations: classpath*:mapper/**/*.xml
   type-aliases-package: com.university.research.**.domain
@@ -59,18 +58,18 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 
-# JWT??
+# JWT配置
 jwt:
   secret: researchManagementSecretKey2024
-  expiration: 86400000  # 24??
+  expiration: 86400000  # 24小时
 
-# ????
+# 日志配置
 logging:
   level:
     com.university.research: debug
     org.springframework.security: debug
 
-# Knife4j??
+# Knife4j配置
 knife4j:
   enable: true
   setting:

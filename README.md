@@ -1,1 +1,0 @@
-# Scientific-Research-Management-System

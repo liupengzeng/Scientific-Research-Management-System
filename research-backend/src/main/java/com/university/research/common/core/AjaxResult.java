@@ -51,5 +51,33 @@ public class AjaxResult<T> implements Serializable {
         this.data = data;
     }
 
+    /**
+     * 返回成功结果（带消息）
+     *
+     * @param msg 消息
+     * @return AjaxResult
+     */
+    public static <T> AjaxResult<T> success(String msg) {
+        return new AjaxResult<>(200, msg, null);
+    }
 
+    /**
+     * 判断是否成功
+     *
+     * @return 是否成功
+     */
+    public boolean isSuccess() {
+        return this.code == 200;
+    }
+
+    /**
+     * 返回分页成功结果
+     *
+     * @param pageResult 分页结果
+     * @param <T>        数据类型
+     * @return AjaxResult
+     */
+    public static <T> AjaxResult<PageResult<T>> page(PageResult<T> pageResult) {
+        return success("查询成功", pageResult);
+    }
 }

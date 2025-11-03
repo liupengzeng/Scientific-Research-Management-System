@@ -41,7 +41,9 @@ export default defineConfig({
   css: {
     preprocessorOptions: {
       scss: {
-        additionalData: `@use "@/styles/element/index.scss" as *;`,
+        // Element Plus样式通过按需导入自动引入，无需手动配置
+        // 如需自定义Element Plus样式，可以取消下面的注释并创建对应文件
+        // additionalData: `@use "@/styles/element/index.scss" as *;`,
       },
     },
   },

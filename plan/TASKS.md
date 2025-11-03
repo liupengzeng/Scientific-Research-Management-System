@@ -1,7 +1,7 @@
 # 高校科研管理系统 - 项目实现计划
 
 **项目名称**: 高校科研管理系统  
-**项目类型**: 前后端分离的企业级Web应用  
+**项目类型**: 前后端分离的企业级 Web 应用  
 **技术栈**: Spring Boot 3.2.0 + Vue 3 + MySQL + Redis  
 **创建时间**: 2025-01-20  
 **最后更新**: 2025-01-20
@@ -11,13 +11,15 @@
 ## 项目实现总体策略
 
 ### 实现原则
+
 1. **自底向上**: 先实现基础设施，再实现业务功能
-2. **前后端并行**: 后端API先行，前端页面紧随
+2. **前后端并行**: 后端 API 先行，前端页面紧随
 3. **模块化开发**: 按功能模块拆分，独立开发测试
 4. **持续集成**: 每完成一个任务立即测试和提交
 5. **文档同步**: 每次完成功能后更新本文档
 
 ### 实现顺序
+
 ```
 基础设施 → 系统管理 → 核心业务 → 辅助功能 → 统计可视化 → 优化测试
 ```
@@ -29,72 +31,81 @@
 **目标**: 搭建项目基础架构，实现核心框架功能，为后续开发打下基础
 
 ### Phase 1.1: 项目环境与配置
+
 **状态**: 🔄 进行中  
 **优先级**: P0 (最高)  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-1.1.1**: 清理前端TypeScript残留文件
+- [x] **TASK-1.1.1**: 清理前端 TypeScript 残留文件
+
   - 删除 `research-frontend/tsconfig.json`
   - 删除 `research-frontend/tsconfig.app.json`
   - 删除 `research-frontend/tsconfig.node.json`
   - 删除 `research-frontend/env.d.ts`
   - 删除 `research-frontend/src/types/` 目录
-  - 将 `eslint.config.ts` 改为 `eslint.config.js` (JavaScript配置)
-  - **验收标准**: 前端项目无TypeScript配置文件，ESLint使用JS配置
+  - 将 `eslint.config.ts` 改为 `eslint.config.js` (JavaScript 配置)
+  - **验收标准**: 前端项目无 TypeScript 配置文件，ESLint 使用 JS 配置
 
 - [ ] **TASK-1.1.2**: 数据库初始化
+
   - 执行 `research-backend/SQL/research.sql` 创建数据库表
   - 验证所有表结构正确
   - 添加初始测试数据（可选）
   - **验收标准**: 数据库表创建成功，外键约束正确
 
-- [ ] **TASK-1.1.3**: 后端配置文件完善
-  - 检查 `application.yml` 配置完整性
-  - 配置数据源（MySQL连接）
-  - 配置Redis连接
-  - 配置JWT参数
-  - 配置文件上传限制
-  - **验收标准**: 后端应用可以成功启动，连接数据库和Redis
+- [x] **TASK-1.1.3**: 后端配置文件完善
 
-- [ ] **TASK-1.1.4**: 前端环境配置完善
-  - 验证 `vite.config.js` 配置正确
-  - 验证API代理配置
-  - 验证路径别名配置
-  - 验证Element Plus自动导入
+  - 检查 `application.yml` 配置完整性
+  - 配置数据源（MySQL 连接）
+  - 配置 Redis 连接
+  - 配置 JWT 参数
+  - 配置文件上传限制
+  - **验收标准**: 后端应用可以成功启动，连接数据库和 Redis
+
+- [x] **TASK-1.1.4**: 前端环境配置完善
+  - ✅ 验证 `vite.config.js` 配置正确
+  - ✅ 验证 API 代理配置（/api -> http://localhost:8080）
+  - ✅ 验证路径别名配置（@ -> src）
+  - ✅ 验证 Element Plus 自动导入
+  - ✅ 修复样式文件引用问题
   - **验收标准**: 前端开发服务器可以正常启动，代理配置正确
 
 ---
 
 ### Phase 1.2: 后端核心框架组件
-**状态**: ⏳ 待开始  
+
+**状态**: ✅ 已完成  
 **优先级**: P0  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
-- [ ] **TASK-1.2.1**: Spring Security + JWT认证框架
-  - 创建 `JwtAuthenticationTokenFilter` (JWT认证过滤器)
-  - 创建 `JwtTokenUtil` (JWT工具类，生成/解析Token)
-  - 创建 `SecurityConfig` (Spring Security配置类)
+- [x] **TASK-1.2.1**: Spring Security + JWT 认证框架
+
+  - 创建 `JwtAuthenticationTokenFilter` (JWT 认证过滤器)
+  - 创建 `JwtTokenUtil` (JWT 工具类，生成/解析 Token)
+  - 创建 `SecurityConfig` (Spring Security 配置类)
   - 实现 `UserDetailsService` (从数据库加载用户信息)
   - 配置白名单（登录、注册等无需认证的接口）
-  - **文件路径**: 
+  - **文件路径**:
     - `framework/security/JwtAuthenticationTokenFilter.java`
     - `framework/security/JwtTokenUtil.java`
     - `framework/security/SecurityConfig.java`
     - `framework/security/UserDetailsServiceImpl.java`
-  - **验收标准**: 可以实现用户登录并生成JWT Token，Token验证通过
+  - **验收标准**: 可以实现用户登录并生成 JWT Token，Token 验证通过
 
-- [ ] **TASK-1.2.2**: 统一响应封装完善
+- [x] **TASK-1.2.2**: 统一响应封装完善
+
   - 检查 `AjaxResult` 类是否完整
   - 添加更多便捷方法（如分页响应封装）
-  - 确保所有Controller统一使用
+  - 确保所有 Controller 统一使用
   - **文件路径**: `common/core/AjaxResult.java`
-  - **验收标准**: AjaxResult功能完整，使用便捷
+  - **验收标准**: AjaxResult 功能完整，使用便捷
 
-- [ ] **TASK-1.2.3**: 全局异常处理完善
+- [x] **TASK-1.2.3**: 全局异常处理完善
+
   - 检查 `GlobalExceptionHandler` 是否完整
   - 添加参数校验异常处理
   - 添加认证异常处理
@@ -102,16 +113,17 @@
   - **文件路径**: `common/exception/GlobalExceptionHandler.java`
   - **验收标准**: 所有异常都能被正确捕获并返回友好提示
 
-- [ ] **TASK-1.2.4**: 分页查询工具完善
+- [x] **TASK-1.2.4**: 分页查询工具完善
+
   - 检查 `PageQuery` 类
   - 创建 `PageResult` 分页响应封装
-  - 集成MyBatis-Plus分页插件
-  - **文件路径**: 
+  - 集成 MyBatis-Plus 分页插件
+  - **文件路径**:
     - `common/core/PageQuery.java`
     - `common/core/PageResult.java`
   - **验收标准**: 分页查询功能可用，响应格式统一
 
-- [ ] **TASK-1.2.5**: 工具类完善
+- [x] **TASK-1.2.5**: 工具类完善
   - 创建 `StringUtils` (字符串工具)
   - 创建 `DateUtils` (日期工具)
   - 创建 `SecurityUtils` (安全工具，获取当前用户)
@@ -122,44 +134,50 @@
 ---
 
 ### Phase 1.3: 前端核心框架组件
+
 **状态**: ⏳ 待开始  
 **优先级**: P0  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
-- [ ] **TASK-1.3.1**: HTTP请求封装完善
-  - 完善 `utils/request.js` Axios封装
-  - 实现请求拦截器（添加Token）
+- [ ] **TASK-1.3.1**: HTTP 请求封装完善
+
+  - 完善 `utils/request.js` Axios 封装
+  - 实现请求拦截器（添加 Token）
   - 实现响应拦截器（统一错误处理）
-  - 实现Token过期自动跳转登录
+  - 实现 Token 过期自动跳转登录
   - **文件路径**: `src/utils/request.js`
-  - **验收标准**: 请求封装完整，可以自动携带Token，错误处理正确
+  - **验收标准**: 请求封装完整，可以自动携带 Token，错误处理正确
 
 - [ ] **TASK-1.3.2**: 认证工具完善
+
   - 完善 `utils/auth.js` 认证相关工具
-  - 实现Token存储/获取/删除
+  - 实现 Token 存储/获取/删除
   - 实现用户信息存储/获取
   - **文件路径**: `src/utils/auth.js`
   - **验收标准**: 认证工具可用
 
-- [ ] **TASK-1.3.3**: Pinia状态管理设置
+- [ ] **TASK-1.3.3**: Pinia 状态管理设置
+
   - 创建 `stores/user.js` (用户状态)
   - 创建 `stores/permission.js` (权限状态)
   - 创建 `stores/app.js` (应用全局状态)
-  - 配置Pinia持久化（可选）
+  - 配置 Pinia 持久化（可选）
   - **文件路径**: `src/stores/`
-  - **验收标准**: Pinia store可用，可以管理用户和权限状态
+  - **验收标准**: Pinia store 可用，可以管理用户和权限状态
 
-- [ ] **TASK-1.3.4**: Vue Router路由配置
+- [ ] **TASK-1.3.4**: Vue Router 路由配置
+
   - 创建路由配置文件
-  - 配置基础路由（登录、404等）
+  - 配置基础路由（登录、404 等）
   - 实现路由守卫（权限校验）
   - 配置路由懒加载
   - **文件路径**: `src/router/index.js`
   - **验收标准**: 路由配置可用，路由守卫生效
 
 - [ ] **TASK-1.3.5**: 主布局组件
+
   - 创建 `layout/index.vue` (主布局)
   - 创建 `layout/components/Header.vue` (头部)
   - 创建 `layout/components/Sidebar.vue` (侧边栏)
@@ -182,32 +200,36 @@
 **目标**: 实现系统基础管理功能，包括用户、角色、权限、菜单管理等
 
 ### Phase 2.1: 部门管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-2.1.1**: 后端 - 部门实体与数据层
+
   - 创建 `SysDept` 实体类
   - 创建 `SysDeptMapper` 接口
   - 创建 `SysDeptMapper.xml` 映射文件
-  - **文件路径**: 
+  - **文件路径**:
     - `system/domain/SysDept.java`
     - `system/mapper/SysDeptMapper.java`
     - `resources/mapper/system/SysDeptMapper.xml`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-2.1.2**: 后端 - 部门业务逻辑层
+
   - 创建 `SysDeptService` 接口
   - 创建 `SysDeptServiceImpl` 实现类
   - 实现部门树形结构查询
-  - 实现部门CRUD操作
+  - 实现部门 CRUD 操作
   - 实现部门状态管理（启用/停用）
   - **文件路径**: `system/service/`
   - **验收标准**: 部门业务逻辑完整，支持树形查询
 
 - [ ] **TASK-2.1.3**: 后端 - 部门控制器
+
   - 创建 `SysDeptController`
   - 实现部门列表查询（树形）
   - 实现部门新增
@@ -215,8 +237,8 @@
   - 实现部门删除（检查是否有子部门）
   - 实现部门状态修改
   - **文件路径**: `system/controller/SysDeptController.java`
-  - **API路径**: `/api/system/dept`
-  - **验收标准**: 部门管理API可用，通过Knife4j测试
+  - **API 路径**: `/api/system/dept`
+  - **验收标准**: 部门管理 API 可用，通过 Knife4j 测试
 
 - [ ] **TASK-2.1.4**: 前端 - 部门管理页面
   - 创建 `views/system/dept/index.vue`
@@ -225,29 +247,32 @@
   - 实现部门删除确认
   - 实现部门状态切换
   - **文件路径**: `src/views/system/dept/`
-  - **验收标准**: 部门管理页面可用，可以完成CRUD操作
+  - **验收标准**: 部门管理页面可用，可以完成 CRUD 操作
 
 ---
 
 ### Phase 2.2: 用户管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
 - [ ] **TASK-2.2.1**: 后端 - 用户实体与数据层
+
   - 创建 `SysUser` 实体类
   - 创建 `SysUserMapper` 接口
   - 创建 `SysUserMapper.xml` 映射文件
   - 实现用户查询（关联部门、角色）
   - **文件路径**: `system/domain/`, `system/mapper/`
-  - **验收标准**: 实体类和Mapper可用，支持关联查询
+  - **验收标准**: 实体类和 Mapper 可用，支持关联查询
 
 - [ ] **TASK-2.2.2**: 后端 - 用户业务逻辑层
+
   - 创建 `SysUserService` 接口
   - 创建 `SysUserServiceImpl` 实现类
-  - 实现用户CRUD操作
+  - 实现用户 CRUD 操作
   - 实现用户密码加密（BCrypt）
   - 实现用户重置密码
   - 实现用户状态管理
@@ -256,6 +281,7 @@
   - **验收标准**: 用户业务逻辑完整，密码加密正确
 
 - [ ] **TASK-2.2.3**: 后端 - 用户控制器
+
   - 创建 `SysUserController`
   - 实现用户列表查询（分页）
   - 实现用户详情查询
@@ -265,8 +291,8 @@
   - 实现用户重置密码
   - 实现用户状态修改
   - **文件路径**: `system/controller/SysUserController.java`
-  - **API路径**: `/api/system/user`
-  - **验收标准**: 用户管理API可用
+  - **API 路径**: `/api/system/user`
+  - **验收标准**: 用户管理 API 可用
 
 - [ ] **TASK-2.2.4**: 前端 - 用户管理页面
   - 创建 `views/system/user/index.vue`
@@ -281,28 +307,32 @@
 ---
 
 ### Phase 2.3: 角色管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-2.3.1**: 后端 - 角色实体与数据层
+
   - 创建 `SysRole` 实体类
   - 创建 `SysRoleMapper` 接口
   - 创建 `SysRoleMapper.xml` 映射文件
   - **文件路径**: `system/domain/`, `system/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-2.3.2**: 后端 - 角色业务逻辑层
+
   - 创建 `SysRoleService` 接口
   - 创建 `SysRoleServiceImpl` 实现类
-  - 实现角色CRUD操作
+  - 实现角色 CRUD 操作
   - 实现角色状态管理
   - **文件路径**: `system/service/`
   - **验收标准**: 角色业务逻辑完整
 
 - [ ] **TASK-2.3.3**: 后端 - 角色控制器
+
   - 创建 `SysRoleController`
   - 实现角色列表查询
   - 实现角色新增
@@ -310,8 +340,8 @@
   - 实现角色删除
   - 实现角色状态修改
   - **文件路径**: `system/controller/SysRoleController.java`
-  - **API路径**: `/api/system/role`
-  - **验收标准**: 角色管理API可用
+  - **API 路径**: `/api/system/role`
+  - **验收标准**: 角色管理 API 可用
 
 - [ ] **TASK-2.3.4**: 前端 - 角色管理页面
   - 创建 `views/system/role/index.vue`
@@ -324,24 +354,27 @@
 ---
 
 ### Phase 2.4: 菜单与权限管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
 - [ ] **TASK-2.4.1**: 后端 - 菜单实体与数据层
+
   - 创建 `SysMenu` 实体类
   - 创建 `SysMenuMapper` 接口
   - 创建 `SysMenuMapper.xml` 映射文件
   - 实现菜单树形结构查询
   - **文件路径**: `system/domain/`, `system/mapper/`
-  - **验收标准**: 实体类和Mapper可用，支持树形查询
+  - **验收标准**: 实体类和 Mapper 可用，支持树形查询
 
 - [ ] **TASK-2.4.2**: 后端 - 菜单业务逻辑层
+
   - 创建 `SysMenuService` 接口
   - 创建 `SysMenuServiceImpl` 实现类
-  - 实现菜单CRUD操作
+  - 实现菜单 CRUD 操作
   - 实现菜单树形结构构建
   - 实现根据角色获取菜单
   - 实现根据用户获取权限列表
@@ -349,6 +382,7 @@
   - **验收标准**: 菜单业务逻辑完整
 
 - [ ] **TASK-2.4.3**: 后端 - 菜单控制器
+
   - 创建 `SysMenuController`
   - 实现菜单列表查询（树形）
   - 实现菜单新增
@@ -356,10 +390,11 @@
   - 实现菜单删除（检查是否有子菜单）
   - 实现根据角色获取菜单
   - **文件路径**: `system/controller/SysMenuController.java`
-  - **API路径**: `/api/system/menu`
-  - **验收标准**: 菜单管理API可用
+  - **API 路径**: `/api/system/menu`
+  - **验收标准**: 菜单管理 API 可用
 
 - [ ] **TASK-2.4.4**: 后端 - 权限控制
+
   - 创建权限注解 `@PreAuthorize` 配置
   - 实现方法级权限校验
   - 实现数据权限控制（可选）
@@ -367,6 +402,7 @@
   - **验收标准**: 权限控制生效
 
 - [ ] **TASK-2.4.5**: 前端 - 菜单管理页面
+
   - 创建 `views/system/menu/index.vue`
   - 实现菜单树形列表展示
   - 实现菜单新增/编辑表单
@@ -375,6 +411,7 @@
   - **验收标准**: 菜单管理页面可用
 
 - [ ] **TASK-2.4.6**: 前端 - 角色权限分配
+
   - 在角色管理页面添加权限分配功能
   - 实现菜单权限树形选择
   - 实现权限保存
@@ -391,47 +428,52 @@
 ---
 
 ### Phase 2.5: 登录与认证
+
 **状态**: ⏳ 待开始  
 **优先级**: P0  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-2.5.1**: 后端 - 登录接口
+
   - 创建 `AuthController`
   - 实现登录接口（验证用户名密码）
-  - 生成JWT Token
+  - 生成 JWT Token
   - 返回用户信息和权限
   - 实现验证码生成（可选）
   - **文件路径**: `framework/web/AuthController.java`
-  - **API路径**: `/api/auth/login`
-  - **验收标准**: 登录接口可用，返回Token和用户信息
+  - **API 路径**: `/api/auth/login`
+  - **验收标准**: 登录接口可用，返回 Token 和用户信息
 
 - [ ] **TASK-2.5.2**: 后端 - 登出接口
+
   - 实现登出接口
-  - Token失效处理（可选，使用Redis黑名单）
-  - **API路径**: `/api/auth/logout`
+  - Token 失效处理（可选，使用 Redis 黑名单）
+  - **API 路径**: `/api/auth/logout`
   - **验收标准**: 登出接口可用
 
 - [ ] **TASK-2.5.3**: 后端 - 获取当前用户信息
+
   - 实现获取当前登录用户信息接口
   - 返回用户基本信息、权限列表、菜单列表
-  - **API路径**: `/api/auth/userInfo`
+  - **API 路径**: `/api/auth/userInfo`
   - **验收标准**: 获取用户信息接口可用
 
 - [ ] **TASK-2.5.4**: 前端 - 登录页面
+
   - 创建 `views/login/index.vue`
   - 实现登录表单
   - 实现验证码显示（如果后端支持）
-  - 实现登录逻辑（调用登录API）
-  - 实现Token存储
+  - 实现登录逻辑（调用登录 API）
+  - 实现 Token 存储
   - 实现登录后跳转
   - **文件路径**: `src/views/login/`
   - **验收标准**: 登录页面可用，可以成功登录
 
 - [ ] **TASK-2.5.5**: 前端 - 路由守卫完善
-  - 在路由守卫中实现Token验证
-  - 实现Token过期自动跳转登录
+  - 在路由守卫中实现 Token 验证
+  - 实现 Token 过期自动跳转登录
   - 实现未登录自动跳转登录页
   - **文件路径**: `src/router/index.js`
   - **验收标准**: 路由守卫生效，未登录无法访问页面
@@ -439,31 +481,35 @@
 ---
 
 ### Phase 2.6: 操作日志
+
 **状态**: ⏳ 待开始  
 **优先级**: P2  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-2.6.1**: 后端 - 操作日志实体与数据层
+
   - 创建 `SysOperationLog` 实体类
   - 创建 `SysOperationLogMapper` 接口
   - **文件路径**: `system/domain/`, `system/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-2.6.2**: 后端 - 操作日志AOP切面
+- [ ] **TASK-2.6.2**: 后端 - 操作日志 AOP 切面
+
   - 创建 `@Log` 注解
-  - 创建 `LogAspect` AOP切面
+  - 创建 `LogAspect` AOP 切面
   - 实现自动记录操作日志
   - **文件路径**: `common/annotation/`, `framework/web/`
-  - **验收标准**: AOP切面可用，可以自动记录日志
+  - **验收标准**: AOP 切面可用，可以自动记录日志
 
 - [ ] **TASK-2.6.3**: 后端 - 操作日志查询接口
+
   - 在 `SysOperationLogController` 中实现日志列表查询（分页）
   - 实现日志详情查询
   - 实现日志删除（可选）
   - **文件路径**: `system/controller/SysOperationLogController.java`
-  - **API路径**: `/api/system/operationLog`
+  - **API 路径**: `/api/system/operationLog`
   - **验收标准**: 操作日志查询接口可用
 
 - [ ] **TASK-2.6.4**: 前端 - 操作日志页面
@@ -480,25 +526,28 @@
 **目标**: 实现科研项目的全生命周期管理，包括申报、审批、立项、中检、结题等
 
 ### Phase 3.1: 项目类型管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 1-2天
+**预计工时**: 1-2 天
 
 #### 任务清单
 
 - [ ] **TASK-3.1.1**: 后端 - 项目类型实体与数据层
+
   - 创建 `ResearchProjectType` 实体类
   - 创建 `ResearchProjectTypeMapper` 接口
   - **文件路径**: `research/domain/`, `research/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-3.1.2**: 后端 - 项目类型业务与控制器
+
   - 创建 `ResearchProjectTypeService` 和实现类
   - 创建 `ResearchProjectTypeController`
-  - 实现项目类型CRUD操作
+  - 实现项目类型 CRUD 操作
   - **文件路径**: `research/service/`, `research/controller/`
-  - **API路径**: `/api/research/projectType`
-  - **验收标准**: 项目类型管理API可用
+  - **API 路径**: `/api/research/projectType`
+  - **验收标准**: 项目类型管理 API 可用
 
 - [ ] **TASK-3.1.3**: 前端 - 项目类型管理页面
   - 创建 `views/research/projectType/index.vue`
@@ -509,31 +558,35 @@
 ---
 
 ### Phase 3.2: 项目基础功能
+
 **状态**: ⏳ 待开始  
 **优先级**: P0  
-**预计工时**: 4-5天
+**预计工时**: 4-5 天
 
 #### 任务清单
 
 - [ ] **TASK-3.2.1**: 后端 - 项目实体与数据层
+
   - 创建 `ResearchProject` 实体类
   - 创建 `ResearchProjectMapper` 接口
   - 创建 `ResearchProjectMapper.xml` 映射文件
   - 实现项目关联查询（负责人、部门、类型等）
   - **文件路径**: `research/domain/`, `research/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-3.2.2**: 后端 - 项目业务逻辑层
+
   - 创建 `ResearchProjectService` 接口
   - 创建 `ResearchProjectServiceImpl` 实现类
-  - 实现项目CRUD操作
-  - 实现项目状态流转（草稿→已提交→已立项→进行中→已完成→已结题）
+  - 实现项目 CRUD 操作
+  - 实现项目状态流转（草稿 → 已提交 → 已立项 → 进行中 → 已完成 → 已结题）
   - 实现项目编号自动生成
   - 实现项目预算校验
   - **文件路径**: `research/service/`
   - **验收标准**: 项目业务逻辑完整
 
 - [ ] **TASK-3.2.3**: 后端 - 项目控制器
+
   - 创建 `ResearchProjectController`
   - 实现项目列表查询（分页，支持多条件筛选）
   - 实现项目详情查询
@@ -542,10 +595,11 @@
   - 实现项目删除
   - 实现项目提交（状态改为已提交）
   - **文件路径**: `research/controller/ResearchProjectController.java`
-  - **API路径**: `/api/research/project`
-  - **验收标准**: 项目管理API可用
+  - **API 路径**: `/api/research/project`
+  - **验收标准**: 项目管理 API 可用
 
 - [ ] **TASK-3.2.4**: 前端 - 项目列表页面
+
   - 创建 `views/research/project/index.vue`
   - 实现项目列表（表格，支持分页、筛选）
   - 实现项目状态标签显示
@@ -565,19 +619,22 @@
 ---
 
 ### Phase 3.3: 项目审批流程
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
 - [ ] **TASK-3.3.1**: 后端 - 审批记录实体与数据层
+
   - 创建 `ResearchProjectApproval` 实体类
   - 创建 `ResearchProjectApprovalMapper` 接口
   - **文件路径**: `research/domain/`, `research/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-3.3.2**: 后端 - 项目审批业务逻辑
+
   - 在 `ResearchProjectService` 中添加审批方法
   - 实现项目审批（通过/驳回）
   - 实现多级审批流程（可选）
@@ -586,11 +643,12 @@
   - **验收标准**: 审批业务逻辑完整
 
 - [ ] **TASK-3.3.3**: 后端 - 项目审批接口
+
   - 在 `ResearchProjectController` 中添加审批接口
   - 实现审批通过接口
   - 实现审批驳回接口
   - 实现审批记录查询接口
-  - **API路径**: `/api/research/project/approve`
+  - **API 路径**: `/api/research/project/approve`
   - **验收标准**: 审批接口可用
 
 - [ ] **TASK-3.3.4**: 前端 - 项目审批页面
@@ -604,20 +662,23 @@
 ---
 
 ### Phase 3.4: 项目中检与结题
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
 - [ ] **TASK-3.4.1**: 后端 - 项目检查记录实体
+
   - 创建 `ResearchProjectCheck` 实体类（中检记录）
   - 创建 `ResearchProjectFinal` 实体类（结题记录）
-  - 创建对应的Mapper接口
+  - 创建对应的 Mapper 接口
   - **文件路径**: `research/domain/`, `research/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-3.4.2**: 后端 - 项目中检与结题业务逻辑
+
   - 在 `ResearchProjectService` 中添加中检和结题方法
   - 实现项目中检记录提交
   - 实现项目结题材料提交
@@ -626,14 +687,16 @@
   - **验收标准**: 中检和结题业务逻辑完整
 
 - [ ] **TASK-3.4.3**: 后端 - 项目中检与结题接口
+
   - 在 `ResearchProjectController` 中添加相关接口
   - 实现中检记录提交接口
   - 实现结题材料提交接口
   - 实现结题验收接口
-  - **API路径**: `/api/research/project/midCheck`, `/api/research/project/finalize`
+  - **API 路径**: `/api/research/project/midCheck`, `/api/research/project/finalize`
   - **验收标准**: 中检和结题接口可用
 
 - [ ] **TASK-3.4.4**: 前端 - 项目中检页面
+
   - 创建 `views/research/project/midCheck.vue`
   - 实现中检报告表单
   - 实现中检材料上传
@@ -651,24 +714,27 @@
 ---
 
 ### Phase 3.5: 项目成员管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P2  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-3.5.1**: 后端 - 项目成员实体与数据层
+
   - 创建 `ResearchProjectMember` 实体类
   - 创建 `ResearchProjectMemberMapper` 接口
   - **文件路径**: `research/domain/`, `research/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-3.5.2**: 后端 - 项目成员业务与接口
+
   - 在 `ResearchProjectService` 中添加成员管理方法
   - 在 `ResearchProjectController` 中添加成员管理接口
   - 实现成员添加/删除
   - 实现成员角色分配
-  - **API路径**: `/api/research/project/member`
+  - **API 路径**: `/api/research/project/member`
   - **验收标准**: 项目成员管理接口可用
 
 - [ ] **TASK-3.5.3**: 前端 - 项目成员管理
@@ -685,27 +751,31 @@
 **目标**: 实现科研成果的管理，包括论文、著作、专利、获奖等
 
 ### Phase 4.1: 论文管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
 - [ ] **TASK-4.1.1**: 后端 - 论文实体与数据层
+
   - 创建 `ResearchPaper` 实体类
   - 创建 `ResearchPaperMapper` 接口
   - **文件路径**: `research/domain/`, `research/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-4.1.2**: 后端 - 论文业务逻辑层
+
   - 创建 `ResearchPaperService` 接口
   - 创建 `ResearchPaperServiceImpl` 实现类
-  - 实现论文CRUD操作
+  - 实现论文 CRUD 操作
   - 实现论文审核状态管理
   - **文件路径**: `research/service/`
   - **验收标准**: 论文业务逻辑完整
 
 - [ ] **TASK-4.1.3**: 后端 - 论文控制器
+
   - 创建 `ResearchPaperController`
   - 实现论文列表查询（分页，支持筛选）
   - 实现论文新增
@@ -713,8 +783,8 @@
   - 实现论文删除
   - 实现论文审核
   - **文件路径**: `research/controller/ResearchPaperController.java`
-  - **API路径**: `/api/research/paper`
-  - **验收标准**: 论文管理API可用
+  - **API 路径**: `/api/research/paper`
+  - **验收标准**: 论文管理 API 可用
 
 - [ ] **TASK-4.1.4**: 前端 - 论文管理页面
   - 创建 `views/research/paper/index.vue`
@@ -728,20 +798,22 @@
 ---
 
 ### Phase 4.2: 著作管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-4.2.1**: 后端 - 著作实体与业务逻辑
+
   - 创建 `ResearchBook` 实体类
   - 创建 `ResearchBookMapper` 接口
   - 创建 `ResearchBookService` 和实现类
   - 创建 `ResearchBookController`
   - **文件路径**: `research/domain/`, `research/mapper/`, `research/service/`, `research/controller/`
-  - **API路径**: `/api/research/book`
-  - **验收标准**: 著作管理API可用
+  - **API 路径**: `/api/research/book`
+  - **验收标准**: 著作管理 API 可用
 
 - [ ] **TASK-4.2.2**: 前端 - 著作管理页面
   - 创建 `views/research/book/index.vue`
@@ -752,20 +824,22 @@
 ---
 
 ### Phase 4.3: 专利管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-4.3.1**: 后端 - 专利实体与业务逻辑
+
   - 创建 `ResearchPatent` 实体类
   - 创建 `ResearchPatentMapper` 接口
   - 创建 `ResearchPatentService` 和实现类
   - 创建 `ResearchPatentController`
   - **文件路径**: `research/domain/`, `research/mapper/`, `research/service/`, `research/controller/`
-  - **API路径**: `/api/research/patent`
-  - **验收标准**: 专利管理API可用
+  - **API 路径**: `/api/research/patent`
+  - **验收标准**: 专利管理 API 可用
 
 - [ ] **TASK-4.3.2**: 前端 - 专利管理页面
   - 创建 `views/research/patent/index.vue`
@@ -776,20 +850,22 @@
 ---
 
 ### Phase 4.4: 获奖管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-4.4.1**: 后端 - 获奖实体与业务逻辑
+
   - 创建 `ResearchAward` 实体类
   - 创建 `ResearchAwardMapper` 接口
   - 创建 `ResearchAwardService` 和实现类
   - 创建 `ResearchAwardController`
   - **文件路径**: `research/domain/`, `research/mapper/`, `research/service/`, `research/controller/`
-  - **API路径**: `/api/research/award`
-  - **验收标准**: 获奖管理API可用
+  - **API 路径**: `/api/research/award`
+  - **验收标准**: 获奖管理 API 可用
 
 - [ ] **TASK-4.4.2**: 前端 - 获奖管理页面
   - 创建 `views/research/award/index.vue`
@@ -804,19 +880,22 @@
 **目标**: 实现科研经费的到账、使用、预算控制等功能
 
 ### Phase 5.1: 经费到账管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-5.1.1**: 后端 - 经费实体与数据层
+
   - 创建 `ResearchFunding` 实体类
   - 创建 `ResearchFundingMapper` 接口
   - **文件路径**: `research/domain/`, `research/mapper/`
-  - **验收标准**: 实体类和Mapper可用
+  - **验收标准**: 实体类和 Mapper 可用
 
 - [ ] **TASK-5.1.2**: 后端 - 经费业务逻辑层
+
   - 创建 `ResearchFundingService` 接口
   - 创建 `ResearchFundingServiceImpl` 实现类
   - 实现经费到账登记
@@ -827,14 +906,15 @@
   - **验收标准**: 经费业务逻辑完整
 
 - [ ] **TASK-5.1.3**: 后端 - 经费控制器
+
   - 创建 `ResearchFundingController`
   - 实现经费列表查询（按项目）
   - 实现经费到账登记接口
   - 实现经费使用登记接口
   - 实现经费统计接口
   - **文件路径**: `research/controller/ResearchFundingController.java`
-  - **API路径**: `/api/research/funding`
-  - **验收标准**: 经费管理API可用
+  - **API 路径**: `/api/research/funding`
+  - **验收标准**: 经费管理 API 可用
 
 - [ ] **TASK-5.1.4**: 前端 - 经费管理页面
   - 创建 `views/research/funding/index.vue`
@@ -848,23 +928,25 @@
 ---
 
 ### Phase 5.2: 经费报表
+
 **状态**: ⏳ 待开始  
 **优先级**: P2  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-5.2.1**: 后端 - 经费统计接口
+
   - 在 `ResearchFundingController` 中添加统计接口
   - 实现按项目统计
   - 实现按部门统计
   - 实现按时间范围统计
-  - **API路径**: `/api/research/funding/statistics`
+  - **API 路径**: `/api/research/funding/statistics`
   - **验收标准**: 经费统计接口可用
 
 - [ ] **TASK-5.2.2**: 前端 - 经费报表页面
   - 创建 `views/research/funding/report.vue`
-  - 实现经费统计图表（使用ECharts）
+  - 实现经费统计图表（使用 ECharts）
   - 实现经费明细导出（Excel）
   - **文件路径**: `src/views/research/funding/`
   - **验收标准**: 经费报表页面可用
@@ -876,20 +958,22 @@
 **目标**: 实现学术会议和学术报告的管理
 
 ### Phase 6.1: 学术会议管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P2  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-6.1.1**: 后端 - 学术会议实体与业务逻辑
+
   - 创建 `ResearchConference` 实体类
   - 创建 `ResearchConferenceMapper` 接口
   - 创建 `ResearchConferenceService` 和实现类
   - 创建 `ResearchConferenceController`
   - **文件路径**: `research/domain/`, `research/mapper/`, `research/service/`, `research/controller/`
-  - **API路径**: `/api/research/conference`
-  - **验收标准**: 学术会议管理API可用
+  - **API 路径**: `/api/research/conference`
+  - **验收标准**: 学术会议管理 API 可用
 
 - [ ] **TASK-6.1.2**: 前端 - 学术会议管理页面
   - 创建 `views/research/conference/index.vue`
@@ -900,20 +984,22 @@
 ---
 
 ### Phase 6.2: 学术报告管理
+
 **状态**: ⏳ 待开始  
 **优先级**: P2  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-6.2.1**: 后端 - 学术报告实体与业务逻辑
+
   - 创建 `ResearchReport` 实体类
   - 创建 `ResearchReportMapper` 接口
   - 创建 `ResearchReportService` 和实现类
   - 创建 `ResearchReportController`
   - **文件路径**: `research/domain/`, `research/mapper/`, `research/service/`, `research/controller/`
-  - **API路径**: `/api/research/report`
-  - **验收标准**: 学术报告管理API可用
+  - **API 路径**: `/api/research/report`
+  - **验收标准**: 学术报告管理 API 可用
 
 - [ ] **TASK-6.2.2**: 前端 - 学术报告管理页面
   - 创建 `views/research/report/index.vue`
@@ -928,20 +1014,22 @@
 **目标**: 实现个人工作台和综合统计功能
 
 ### Phase 7.1: 个人工作台
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
 - [ ] **TASK-7.1.1**: 后端 - 工作台数据接口
+
   - 创建 `DashboardController`
   - 实现待办事项统计接口
   - 实现个人项目统计接口
   - 实现个人成果统计接口
   - 实现通知公告接口（可选）
   - **文件路径**: `research/controller/DashboardController.java`
-  - **API路径**: `/api/dashboard`
+  - **API 路径**: `/api/dashboard`
   - **验收标准**: 工作台数据接口可用
 
 - [ ] **TASK-7.1.2**: 前端 - 个人工作台页面
@@ -956,25 +1044,27 @@
 ---
 
 ### Phase 7.2: 综合统计
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 4-5天
+**预计工时**: 4-5 天
 
 #### 任务清单
 
 - [ ] **TASK-7.2.1**: 后端 - 统计接口
+
   - 创建 `StatisticsController`
   - 实现项目统计接口（按类型、按状态、按部门、按时间）
   - 实现成果统计接口（按类型、按部门、按时间）
   - 实现经费统计接口
   - 实现趋势分析接口
   - **文件路径**: `research/controller/StatisticsController.java`
-  - **API路径**: `/api/statistics`
+  - **API 路径**: `/api/statistics`
   - **验收标准**: 统计接口可用
 
 - [ ] **TASK-7.2.2**: 前端 - 综合统计页面
   - 创建 `views/statistics/index.vue`
-  - 实现统计图表（使用ECharts）
+  - 实现统计图表（使用 ECharts）
     - 项目统计图表（柱状图、饼图）
     - 成果统计图表
     - 经费统计图表
@@ -991,16 +1081,18 @@
 **目标**: 系统优化、性能提升、全面测试
 
 ### Phase 8.1: 代码优化
+
 **状态**: ⏳ 待开始  
 **优先级**: P2  
-**预计工时**: 3-4天
+**预计工时**: 3-4 天
 
 #### 任务清单
 
 - [ ] **TASK-8.1.1**: 后端代码优化
+
   - 代码审查和重构
-  - 优化SQL查询（添加索引、优化慢查询）
-  - 添加缓存（Redis缓存热点数据）
+  - 优化 SQL 查询（添加索引、优化慢查询）
+  - 添加缓存（Redis 缓存热点数据）
   - 优化异常处理
   - **验收标准**: 代码质量提升，性能优化
 
@@ -1014,24 +1106,27 @@
 ---
 
 ### Phase 8.2: 功能测试
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 5-7天
+**预计工时**: 5-7 天
 
 #### 任务清单
 
 - [ ] **TASK-8.2.1**: 后端接口测试
-  - 使用Knife4j测试所有接口
+
+  - 使用 Knife4j 测试所有接口
   - 测试正常流程
   - 测试异常流程
   - 测试边界条件
   - **验收标准**: 所有接口测试通过
 
 - [ ] **TASK-8.2.2**: 前后端联调测试
+
   - 测试所有功能模块
   - 测试权限控制
   - 测试数据流转
-  - 修复发现的bug
+  - 修复发现的 bug
   - **验收标准**: 前后端联调通过，功能正常
 
 - [ ] **TASK-8.2.3**: 性能测试
@@ -1043,22 +1138,24 @@
 ---
 
 ### Phase 8.3: 安全加固
+
 **状态**: ⏳ 待开始  
 **优先级**: P1  
-**预计工时**: 2-3天
+**预计工时**: 2-3 天
 
 #### 任务清单
 
 - [ ] **TASK-8.3.1**: 安全漏洞检查
-  - SQL注入防护检查
-  - XSS攻击防护检查
-  - CSRF防护检查
+
+  - SQL 注入防护检查
+  - XSS 攻击防护检查
+  - CSRF 防护检查
   - 权限越权检查
   - **验收标准**: 安全漏洞修复
 
 - [ ] **TASK-8.3.2**: 配置安全优化
   - 生产环境配置加密
-  - JWT密钥安全存储
+  - JWT 密钥安全存储
   - 数据库连接加密
   - **验收标准**: 配置安全优化完成
 
@@ -1067,7 +1164,10 @@
 ## 进度追踪
 
 ### 总体进度
-- **第一阶段**: ⏳ 待开始 (0%)
+
+- **第一阶段**: 🔄 进行中 (50%)
+  - Phase 1.1: ✅ 基本完成 (100%，待用户验证数据库初始化)
+  - Phase 1.2: ✅ 已完成 (100%)
 - **第二阶段**: ⏳ 待开始 (0%)
 - **第三阶段**: ⏳ 待开始 (0%)
 - **第四阶段**: ⏳ 待开始 (0%)
@@ -1077,12 +1177,15 @@
 - **第八阶段**: ⏳ 待开始 (0%)
 
 ### 已完成任务
+
 _暂无_
 
 ### 进行中任务
+
 _暂无_
 
 ### 已完成功能模块
+
 _暂无_
 
 ---
@@ -1090,20 +1193,75 @@ _暂无_
 ## 更新记录
 
 ### 2025-01-20
+
+#### 初始创建
+
 - 创建项目实现计划文档
-- 制定8个阶段的实现计划
+- 制定 8 个阶段的实现计划
 - 明确每个阶段的任务清单和验收标准
+
+#### Phase 1.1 执行进度
+
+- ✅ **TASK-1.1.1**: 完成清理前端 TypeScript 残留文件
+  - 删除 tsconfig.json, tsconfig.app.json, tsconfig.node.json, env.d.ts
+  - 将 eslint.config.ts 转换为 eslint.config.js
+  - ESLint 配置改为纯 JavaScript
+- ✅ **TASK-1.1.3**: 完成后端配置文件完善
+  - 修复 application.yml 编码问题（中文注释显示正常）
+  - 创建 application-prod.yml 生产环境配置
+  - 创建 application-dev.yml 开发环境配置
+  - 配置包含：数据源、Redis、JWT、文件上传、MyBatis-Plus 等
+- 📝 **TASK-1.1.2**: 数据库初始化（待用户执行 SQL 脚本）
+  - 已创建数据库初始化说明文档
+- ✅ **TASK-1.1.4**: 完成前端环境配置完善
+  - 验证并修复 vite.config.js 配置
+  - API 代理、路径别名、Element Plus 自动导入均配置正确
+  - 修复样式文件引用问题
+  - 创建前端配置验证说明文档
+
+#### Phase 1.2 执行进度
+- ✅ **TASK-1.2.1**: 完成Spring Security + JWT认证框架
+  - 创建 JwtTokenUtil（JWT工具类，生成/解析Token）
+  - 创建 JwtAuthenticationTokenFilter（JWT认证过滤器）
+  - 创建 SecurityConfig（Spring Security配置类，包含CORS、白名单等）
+  - 创建 UserDetailsServiceImpl（用户详情服务，待User实体创建后完善）
+  
+- ✅ **TASK-1.2.2**: 完成统一响应封装完善
+  - 完善 AjaxResult类，添加 success(String msg) 方法
+  - 添加 isSuccess() 判断方法
+  - 添加 page() 分页响应方法
+  
+- ✅ **TASK-1.2.3**: 完成全局异常处理完善
+  - 添加参数校验异常处理（@Valid）
+  - 添加参数绑定异常处理
+  - 添加认证异常处理（BadCredentials、AccountExpired等）
+  - 添加权限不足异常处理
+  - 添加非法参数异常处理
+  - 添加运行时异常处理
+  
+- ✅ **TASK-1.2.4**: 完成分页查询工具完善
+  - 创建 PageResult 分页响应封装类
+  - 支持从MyBatis-Plus的Page对象转换
+  - 自动计算总页数
+  
+- ✅ **TASK-1.2.5**: 完成工具类完善
+  - 创建 StringUtils（字符串工具，继承Apache Commons）
+  - 创建 DateUtils（日期时间工具，使用Java 8+时间API）
+  - 创建 SecurityUtils（安全工具，获取当前登录用户信息）
+  - 创建 FileUtils（文件工具，文件上传、删除、格式化等）
 
 ---
 
 ## 注意事项
 
 1. **任务优先级说明**:
+
    - P0: 最高优先级，必须优先完成
    - P1: 高优先级，核心功能
    - P2: 中优先级，辅助功能
 
 2. **任务状态说明**:
+
    - ⏳ 待开始: 任务未开始
    - 🔄 进行中: 任务正在进行
    - ✅ 已完成: 任务已完成
@@ -1111,6 +1269,7 @@ _暂无_
    - ⚠️ 已阻塞: 任务被阻塞
 
 3. **更新规范**:
+
    - 每次完成一个任务后，更新对应的复选框
    - 每次完成一个阶段后，更新进度追踪
    - 在更新记录中添加完成的功能说明
@@ -1124,4 +1283,3 @@ _暂无_
 ---
 
 **文档维护**: 每次完成功能后及时更新本文档，保持文档与实际进度同步。
-
