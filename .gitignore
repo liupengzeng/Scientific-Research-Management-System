@@ -1,0 +1,161 @@
+# ============================================
+# 项目根目录 .gitignore
+# ============================================
+
+# ========== 操作系统文件 ==========
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+Desktop.ini
+
+# ========== IDE配置文件 ==========
+# VS Code
+.vscode/
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Eclipse
+.classpath
+.project
+.settings/
+.metadata/
+bin/
+tmp/
+*.tmp
+*.bak
+*.swp
+*~.nib
+
+# ========== 日志文件 ==========
+*.log
+logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# ========== 临时文件 ==========
+*.tmp
+*.temp
+*.cache
+.cache/
+*.pid
+*.seed
+*.pid.lock
+
+# ========== 环境变量和配置 ==========
+.env
+.env.local
+.env.*.local
+*.local
+
+# ========== 依赖目录 ==========
+node_modules/
+.pnp
+.pnp.js
+
+# ========== 构建产物 ==========
+dist/
+dist-ssr/
+build/
+target/
+out/
+
+# ========== 测试覆盖率 ==========
+coverage/
+*.lcov
+.nyc_output/
+
+# ========== 后端特定 ==========
+# Maven
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+# Spring Boot
+*.springBeans
+.apt_generated/
+.factorypath
+
+# ========== 前端特定 ==========
+# Vue
+.DS_Store
+*.local
+
+# Editor directories and files
+.idea
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+*.tsbuildinfo
+.eslintcache
+
+# ========== 数据库 ==========
+*.db
+*.sqlite
+*.sqlite3
+
+# ========== 文档生成 ==========
+docs/_build/
+site/
+
+# ========== 其他 ==========
+# TypeScript（项目已决定不使用TS）
+*.tsbuildinfo
+
+# 图片缓存
+*.png.cache
+*.jpg.cache
+
+# 压缩文件（如果有）
+*.zip
+*.tar.gz
+*.rar
+
+# ========== 敏感信息 ==========
+# 配置文件中的敏感信息（生产环境配置通常包含密码等）
+# 注意：开发环境配置可以提交，但生产环境配置不应该提交
+# application-prod.yml 如果包含敏感信息，应该被忽略
+# !application-prod.yml.example  # 可以提交示例文件
+
+*.key
+*.pem
+*.p12
+*.jks
+*.pwd
+
+# ========== 任务文件（本地开发用） ==========
+.tasks/
+*.task
+
+# ========== Cursor IDE ==========
+.cursor/
+
+# ========== 保留文件说明 ==========
+# 注意：以下文件应该被提交
+# - package.json
+# - pom.xml
+# - README.md
+# - 源代码文件
+# - 配置文件模板（不含敏感信息）
+# - SQL脚本
+# - 文档文件（.md）
+
