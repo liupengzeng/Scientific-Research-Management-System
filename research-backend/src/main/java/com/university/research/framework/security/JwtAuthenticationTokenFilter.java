@@ -1,64 +1,192 @@
 package com.university.research.framework.security;
 
-import jakarta.servlet.FilterChain;
-import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.lang.NonNull;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.security.Keys;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
-import org.springframework.web.filter.OncePerRequestFilter;
 
-import java.io.IOException;
+import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
- * JWT认证过滤器
- * 在请求到达Controller之前验证JWT Token
+ * JWT Token工具类
+ * 用于生成、解析、验证JWT Token
  */
 @Component
-public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
+public class JwtTokenUtil {
 
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
+    /**
+     * JWT密钥
+     */
+    @Value("${jwt.secret:researchManagementSecretKey2024}")
+    private String secret;
 
-    @Autowired
-    private UserDetailsService userDetailsService;
+    /**
+     * Token过期时间（毫秒）
+     */
+    @Value("${jwt.expiration:86400000}")
+    private Long expiration;
 
-    @Override
-    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
-            throws ServletException, IOException {
-        String authHeader = request.getHeader("Authorization");
-        String token = jwtTokenUtil.extractTokenFromHeader(authHeader);
+    /**
+     * Token前缀
+     */
+    private static final String TOKEN_PREFIX = "Bearer ";
 
-        if (StringUtils.hasText(token) && SecurityContextHolder.getContext().getAuthentication() == null) {
-            try {
-                String username = jwtTokenUtil.getUsernameFromToken(token);
-                
-                if (username != null && !jwtTokenUtil.isTokenExpired(token)) {
-                    UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-                    
-                    if (jwtTokenUtil.validateToken(token, username)) {
-                        UsernamePasswordAuthenticationToken authentication =
-                                new UsernamePasswordAuthenticationToken(
-                                        userDetails,
-                                        null,
-                                        userDetails.getAuthorities());
-                        authentication.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
-                        SecurityContextHolder.getContext().setAuthentication(authentication);
-                    }
-                }
-            } catch (Exception e) {
-                logger.error("无法设置用户认证", e);
-            }
+    /**
+     * 获取密钥
+     */
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(secret.getBytes(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 生成Token
+     *
+     * @param username 用户名
+     * @param userId   用户ID
+     * @return Token字符串
+     */
+    public String generateToken(String username, Long userId) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("username", username);
+        claims.put("userId", userId);
+        return createToken(claims, username);
+    }
+
+    /**
+     * 创建Token
+     *
+     * @param claims   载荷
+     * @param subject  主题（用户名）
+     * @return Token字符串
+     */
+    private String createToken(Map<String, Object> claims, String subject) {
+        Date now = new Date();
+        Date expiryDate = new Date(now.getTime() + expiration);
+
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(subject)
+                .setIssuedAt(now)
+                .setExpiration(expiryDate)
+                .signWith(getSecretKey(), SignatureAlgorithm.HS512)
+                .compact();
+    }
+
+    /**
+     * 从Token中获取用户名
+     *
+     * @param token Token字符串
+     * @return 用户名
+     */
+    public String getUsernameFromToken(String token) {
+        return getClaimFromToken(token, Claims::getSubject);
+    }
+
+    /**
+     * 从Token中获取用户ID
+     *
+     * @param token Token字符串
+     * @return 用户ID
+     */
+    public Long getUserIdFromToken(String token) {
+        Claims claims = getAllClaimsFromToken(token);
+        return claims.get("userId", Long.class);
+    }
+
+    /**
+     * 从Token中获取过期时间
+     *
+     * @param token Token字符串
+     * @return 过期时间
+     */
+    public Date getExpirationDateFromToken(String token) {
+        return getClaimFromToken(token, Claims::getExpiration);
+    }
+
+    /**
+     * 从Token中获取指定信息
+     *
+     * @param token          Token字符串
+     * @param claimsResolver 解析器
+     * @param <T>            返回类型
+     * @return 信息
+     */
+    public <T> T getClaimFromToken(String token, java.util.function.Function<Claims, T> claimsResolver) {
+        final Claims claims = getAllClaimsFromToken(token);
+        return claimsResolver.apply(claims);
+    }
+
+    /**
+     * 从Token中获取所有信息
+     *
+     * @param token Token字符串
+     * @return Claims
+     */
+    private Claims getAllClaimsFromToken(String token) {
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSecretKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (Exception e) {
+            throw new RuntimeException("Token解析失败: " + e.getMessage());
         }
+    }
 
-        filterChain.doFilter(request, response);
+    /**
+     * 验证Token是否过期
+     *
+     * @param token Token字符串
+     * @return 是否过期
+     */
+    public Boolean isTokenExpired(String token) {
+        try {
+            final Date expiration = getExpirationDateFromToken(token);
+            return expiration.before(new Date());
+        } catch (Exception e) {
+            return true;
+        }
+    }
+
+    /**
+     * 验证Token
+     *
+     * @param token   Token字符串
+     * @param username 用户名
+     * @return 是否有效
+     */
+    public Boolean validateToken(String token, String username) {
+        final String tokenUsername = getUsernameFromToken(token);
+        return (tokenUsername.equals(username) && !isTokenExpired(token));
+    }
+
+    /**
+     * 从请求头中提取Token
+     *
+     * @param authHeader 请求头Authorization
+     * @return Token字符串
+     */
+    public String extractTokenFromHeader(String authHeader) {
+        if (authHeader != null && authHeader.startsWith(TOKEN_PREFIX)) {
+            return authHeader.substring(TOKEN_PREFIX.length());
+        }
+        return null;
+    }
+
+    /**
+     * 获取Token前缀
+     *
+     * @return Token前缀
+     */
+    public String getTokenPrefix() {
+        return TOKEN_PREFIX;
     }
 }
 
