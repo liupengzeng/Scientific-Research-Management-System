@@ -32,5 +32,7 @@ coverage
 /cypress/videos/
 /cypress/screenshots/
 
+doc/
+
 # Vitest
 __screenshots__/

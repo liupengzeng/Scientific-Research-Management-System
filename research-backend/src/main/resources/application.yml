@@ -13,6 +13,8 @@ server:
 
 # Spring配置
 spring:
+  main:
+    allow-bean-definition-overriding: true
   profiles:
     active: dev
   application:
@@ -58,10 +60,16 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
 
+
 # JWT配置
+#jwt:
+#  secret: researchManagementSecretKey2024
+#  expiration: 86400000  # 24小时
+
 jwt:
-  secret: researchManagementSecretKey2024
-  expiration: 86400000  # 24小时
+  secret: "your-very-long-and-secure-secret-key-that-is-at-least-32-characters-long-for-proper-security"
+  expiration: 86400000
+
 
 # 日志配置
 logging:

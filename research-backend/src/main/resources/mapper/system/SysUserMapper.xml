@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.system.mapper.SysUserMapper">
+
+    <!-- 结果映射：包含部门信息 -->
+    <resultMap id="UserResult" type="com.university.research.system.domain.SysUser">
+        <id property="userId" column="user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="realName" column="real_name"/>
+        <result property="userType" column="user_type"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="gender" column="gender"/>
+        <result property="avatar" column="avatar"/>
+        <result property="title" column="title"/>
+        <result property="researchDirection" column="research_direction"/>
+        <result property="status" column="status"/>
+        <result property="lastLoginIp" column="last_login_ip"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <!-- 关联部门信息 -->
+        <association property="dept" javaType="com.university.research.system.domain.SysDept">
+            <id property="deptId" column="dept_id"/>
+            <result property="deptName" column="dept_name"/>
+            <result property="deptCode" column="dept_code"/>
+        </association>
+    </resultMap>
+
+    <!-- 结果映射：包含部门和角色信息 -->
+    <resultMap id="UserWithRolesResult" type="com.university.research.system.domain.SysUser">
+        <id property="userId" column="user_id"/>
+        <result property="deptId" column="dept_id"/>
+        <result property="username" column="username"/>
+        <result property="password" column="password"/>
+        <result property="realName" column="real_name"/>
+        <result property="userType" column="user_type"/>
+        <result property="email" column="email"/>
+        <result property="phone" column="phone"/>
+        <result property="gender" column="gender"/>
+        <result property="avatar" column="avatar"/>
+        <result property="title" column="title"/>
+        <result property="researchDirection" column="research_direction"/>
+        <result property="status" column="status"/>
+        <result property="lastLoginIp" column="last_login_ip"/>
+        <result property="lastLoginTime" column="last_login_time"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <!-- 关联部门信息 -->
+        <association property="dept" javaType="com.university.research.system.domain.SysDept">
+            <id property="deptId" column="dept_id"/>
+            <result property="deptName" column="dept_name"/>
+            <result property="deptCode" column="dept_code"/>
+        </association>
+        <!-- 关联角色列表 -->
+        <collection property="roles" ofType="com.university.research.system.domain.SysRole">
+            <id property="roleId" column="role_id"/>
+            <result property="roleName" column="role_name"/>
+            <result property="roleKey" column="role_key"/>
+        </collection>
+    </resultMap>
+
+    <!-- 根据用户名查询用户（包含部门信息） -->
+    <select id="selectUserByUsername" parameterType="java.lang.String" resultMap="UserResult">
+        SELECT
+            u.user_id,
+            u.dept_id,
+            u.username,
+            u.password,
+            u.real_name,
+            u.user_type,
+            u.email,
+            u.phone,
+            u.gender,
+            u.avatar,
+            u.title,
+            u.research_direction,
+            u.status,
+            u.last_login_ip,
+            u.last_login_time,
+            u.create_by,
+            u.create_time,
+            u.update_by,
+            u.update_time,
+            u.remark,
+            d.dept_id,
+            d.dept_name,
+            d.dept_code
+        FROM sys_user u
+        LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+        WHERE u.username = #{username}
+    </select>
+
+    <!-- 根据用户ID查询用户（包含部门和角色信息） -->
+    <select id="selectUserById" parameterType="java.lang.Long" resultMap="UserWithRolesResult">
+        SELECT
+            u.user_id,
+            u.dept_id,
+            u.username,
+            u.password,
+            u.real_name,
+            u.user_type,
+            u.email,
+            u.phone,
+            u.gender,
+            u.avatar,
+            u.title,
+            u.research_direction,
+            u.status,
+            u.last_login_ip,
+            u.last_login_time,
+            u.create_by,
+            u.create_time,
+            u.update_by,
+            u.update_time,
+            u.remark,
+            d.dept_id,
+            d.dept_name,
+            d.dept_code,
+            r.role_id,
+            r.role_name,
+            r.role_key
+        FROM sys_user u
+        LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+        LEFT JOIN sys_user_role ur ON u.user_id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.role_id
+        WHERE u.user_id = #{userId}
+    </select>
+
+    <!-- 查询用户列表（包含部门和角色信息） -->
+    <select id="selectUserList" parameterType="com.university.research.system.domain.SysUser" resultMap="UserWithRolesResult">
+        SELECT
+            u.user_id,
+            u.dept_id,
+            u.username,
+            u.real_name,
+            u.user_type,
+            u.email,
+            u.phone,
+            u.gender,
+            u.avatar,
+            u.title,
+            u.research_direction,
+            u.status,
+            u.last_login_ip,
+            u.last_login_time,
+            u.create_by,
+            u.create_time,
+            u.update_by,
+            u.update_time,
+            u.remark,
+            d.dept_id,
+            d.dept_name,
+            d.dept_code,
+            r.role_id,
+            r.role_name,
+            r.role_key
+        FROM sys_user u
+        LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
+        LEFT JOIN sys_user_role ur ON u.user_id = ur.user_id
+        LEFT JOIN sys_role r ON ur.role_id = r.role_id
+        <where>
+            <if test="username != null and username != ''">
+                AND u.username LIKE CONCAT('%', #{username}, '%')
+            </if>
+            <if test="realName != null and realName != ''">
+                AND u.real_name LIKE CONCAT('%', #{realName}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND u.status = #{status}
+            </if>
+            <if test="deptId != null">
+                AND (u.dept_id = #{deptId} OR u.dept_id IN (
+                    SELECT dept_id FROM sys_dept WHERE FIND_IN_SET(#{deptId}, '%')
+                ))
+            </if>
+            <if test="phone != null and phone != ''">
+                AND u.phone LIKE CONCAT('%', #{phone}, '%')
+            </if>
+        </where>
+        ORDER BY u.create_time DESC
+    </select>
+
+    <!-- 根据用户ID查询角色ID列表 -->
+    <select id="selectRoleIdsByUserId" parameterType="java.lang.Long" resultType="java.lang.Long">
+        SELECT role_id
+        FROM sys_user_role
+        WHERE user_id = #{userId}
+    </select>
+
+    <!-- 检查用户名是否存在 -->
+    <select id="checkUsernameUnique" resultType="int">
+        SELECT COUNT(1)
+        FROM sys_user
+        WHERE username = #{username}
+        <if test="userId != null">
+            AND user_id != #{userId}
+        </if>
+    </select>
+
+    <!-- 检查邮箱是否存在 -->
+    <select id="checkEmailUnique" resultType="int">
+        SELECT COUNT(1)
+        FROM sys_user
+        WHERE email = #{email} AND email != ''
+        <if test="userId != null">
+            AND user_id != #{userId}
+        </if>
+    </select>
+
+    <!-- 检查手机号是否存在 -->
+    <select id="checkPhoneUnique" resultType="int">
+        SELECT COUNT(1)
+        FROM sys_user
+        WHERE phone = #{phone} AND phone != ''
+        <if test="userId != null">
+            AND user_id != #{userId}
+        </if>
+    </select>
+
+</mapper>
+
