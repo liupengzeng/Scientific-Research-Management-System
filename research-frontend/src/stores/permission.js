@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { getMenuList } from '@/api/menu'
 import router, { constantRoutes } from '@/router'
-import { filterAsyncRoutes } from '@/utils/permission'
+import { transformMenusToRoutes } from '@/utils/permission'
 
 export const usePermissionStore = defineStore('permission', {
   state: () => ({
@@ -28,8 +28,8 @@ export const usePermissionStore = defineStore('permission', {
               const menuList = response.data || []
               this.menuList = menuList
               
-              // 根据菜单生成路由
-              const accessedRoutes = filterAsyncRoutes(menuList, roles)
+              // 将菜单转换为可注册的前端路由；忽略未知组件，避免错误
+              const accessedRoutes = transformMenusToRoutes(menuList)
               this.addRoutes = accessedRoutes
               
               // 动态添加路由

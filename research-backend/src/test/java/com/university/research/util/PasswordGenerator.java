@@ -21,5 +21,6 @@ public class PasswordGenerator {
         System.out.println("INSERT INTO sys_user (username, password, real_name, user_type, status, create_by) VALUES");
         System.out.println("('admin', '" + encodedPassword + "', '系统管理员', '00', '0', 'admin');");
     }
+
 }
 

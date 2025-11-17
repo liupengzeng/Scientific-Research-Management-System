@@ -30,11 +30,18 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    // 禁用HTTP缓存，确保开发环境总是获取最新内容
+    headers: {
+      'Cache-Control': 'no-store, no-cache, must-revalidate, proxy-revalidate',
+      'Pragma': 'no-cache',
+      'Expires': '0'
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:8080',
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/api/, ''),
+        // 不重写路径，因为后端设置了 context-path: /api
+        // rewrite: (path) => path.replace(/^\/api/, ''),
       },
     },
   },

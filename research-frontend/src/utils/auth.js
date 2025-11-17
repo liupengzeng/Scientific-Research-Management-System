@@ -72,3 +72,29 @@ export function clearAuth() {
   removeUserInfo()
 }
 
+function b64UrlDecode(input) {
+  let base64 = input.replace(/-/g, '+').replace(/_/g, '/')
+  const pad = base64.length % 4
+  if (pad) base64 += '='.repeat(4 - pad)
+  return atob(base64)
+}
+
+function parseJwt(token) {
+  if (!token) return null
+  const parts = token.split('.')
+  if (parts.length !== 3) return null
+  try {
+    const payload = JSON.parse(b64UrlDecode(parts[1]))
+    return payload
+  } catch (e) {
+    return null
+  }
+}
+
+export function isTokenExpired(token) {
+  const payload = parseJwt(token)
+  if (!payload || !payload.exp) return false
+  const now = Math.floor(Date.now() / 1000)
+  return now >= payload.exp
+}
+

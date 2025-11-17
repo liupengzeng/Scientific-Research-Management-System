@@ -7,6 +7,7 @@ import com.university.research.framework.security.JwtTokenUtil;
 
 import com.university.research.system.domain.SysRole;
 import com.university.research.system.domain.SysUser;
+import com.university.research.system.service.SysMenuService;
 import com.university.research.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -44,6 +45,8 @@ public class AuthController {
     @Autowired
     private SysUserService userService;
 
+    @Autowired
+    private SysMenuService menuService;
 
     /**
      * 用户登录
@@ -95,7 +98,8 @@ public class AuthController {
             userInfo.put("deptId", user.getDeptId());
             userInfo.put("deptName", user.getDept() != null ? user.getDept().getDeptName() : null);
             userInfo.put("roles", roleIds);
-            userInfo.put("permissions", List.of()); // 权限列表待菜单管理完成后实现
+            List<String> permissions = menuService.selectPermsByRoleIds(roleIds);
+            userInfo.put("permissions", permissions);
 
             // 更新最后登录时间和IP
             updateLoginInfo(user, getClientIp(request));
@@ -133,6 +137,11 @@ public class AuthController {
             // 获取完整用户信息（包含角色）
             SysUser fullUser = userService.selectUserById(user.getUserId());
 
+            List<Long> roleIds = fullUser.getRoles() != null
+                    ? fullUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList())
+                    : List.of();
+            List<String> permissions = menuService.selectPermsByRoleIds(roleIds);
+
             // 构建用户信息
             Map<String, Object> userInfo = new HashMap<>();
             userInfo.put("userId", fullUser.getUserId());
@@ -141,10 +150,8 @@ public class AuthController {
             userInfo.put("avatar", fullUser.getAvatar());
             userInfo.put("deptId", fullUser.getDeptId());
             userInfo.put("deptName", fullUser.getDept() != null ? fullUser.getDept().getDeptName() : null);
-            userInfo.put("roles", fullUser.getRoles() != null
-                    ? fullUser.getRoles().stream().map(SysRole::getRoleId).collect(Collectors.toList())
-                    : List.of());
-            userInfo.put("permissions", List.of()); // 权限列表待菜单管理完成后实现
+            userInfo.put("roles", roleIds);
+            userInfo.put("permissions", permissions);
 
             return AjaxResult.success(userInfo);
         } catch (Exception e) {
@@ -172,7 +179,7 @@ public class AuthController {
         updateUser.setLastLoginIp(ip);
         updateUser.setLastLoginTime(LocalDateTime.now());
         // 直接使用Mapper更新，避免触发密码加密等逻辑
-        userService.updateUser(updateUser);
+        userService.updateLoginInfo(user.getUserId(),ip,LocalDateTime.now());
     }
 
     /**

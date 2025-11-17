@@ -42,8 +42,8 @@ service.interceptors.response.use(
     
     // 如果响应状态码不是200，说明请求出错
     if (res.code !== 200) {
-      // 如果token过期或无效（401），清除token并跳转到登录页
-      if (res.code === 401 || res.code === 403) {
+      // 401：未授权/登录过期
+      if (res.code === 401) {
         ElMessageBox.confirm(
           '登录状态已过期，您可以继续留在该页面，或者重新登录',
           '系统提示',
@@ -63,6 +63,12 @@ service.interceptors.response.use(
           // 用户取消，不跳转
         })
         return Promise.reject(new Error(res.msg || '认证失败'))
+      }
+      
+      // 403：权限不足（不是登录过期）
+      if (res.code === 403) {
+        ElMessage.warning(res.msg || '您没有权限访问该资源')
+        return Promise.reject(new Error(res.msg || '权限不足'))
       }
       
       // 其他错误，显示错误消息
@@ -95,8 +101,10 @@ service.interceptors.response.use(
           router.push('/login')
           break
         case 403:
-          message = '拒绝访问'
-          break
+          message = data?.msg || '您没有权限访问该资源'
+          // 403是权限不足，不是登录过期，不需要跳转登录页
+          ElMessage.warning(message)
+          return Promise.reject(error)
         case 404:
           message = '请求资源不存在'
           break

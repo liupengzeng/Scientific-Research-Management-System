@@ -5,6 +5,7 @@ import com.university.research.system.domain.SysUser;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -73,5 +74,10 @@ public interface SysUserMapper extends BaseMapper<SysUser> {
      * @return 数量
      */
     int checkPhoneUnique(@Param("phone") String phone, @Param("userId") Long userId);
+
+    //登录时更改信息
+    int updateLoginInfo(@Param("userId") Long userId,
+                        @Param("ip") String ip,
+                        @Param("time") LocalDateTime time);
 }
 

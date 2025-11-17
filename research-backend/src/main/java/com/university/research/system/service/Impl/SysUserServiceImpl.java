@@ -11,6 +11,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -204,6 +205,11 @@ public class SysUserServiceImpl implements SysUserService {
         for (Long roleId : roleIds) {
             userRoleMapper.insertUserRole(userId, roleId);
         }
+    }
+
+    @Override
+    public int updateLoginInfo(Long userId, String ip, LocalDateTime time) {
+        return userMapper.updateLoginInfo(userId, ip, time);
     }
 }
 

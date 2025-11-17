@@ -33,6 +33,9 @@
           />
         </el-form-item>
         <el-form-item>
+          <el-checkbox v-model="rememberMe">记住我的用户名</el-checkbox>
+        </el-form-item>
+        <el-form-item>
           <el-button
             type="primary"
             size="large"
@@ -61,8 +64,11 @@ const userStore = useUserStore()
 const loginFormRef = ref(null)
 const loading = ref(false)
 
+const savedUsername = localStorage.getItem('remember-username') || ''
+const rememberMe = ref(localStorage.getItem('remember-me') === '1')
+
 const loginForm = reactive({
-  username: '',
+  username: savedUsername,
   password: ''
 })
 
@@ -86,6 +92,13 @@ const handleLogin = async () => {
       try {
         await userStore.login(loginForm)
         ElMessage.success('登录成功')
+        if (rememberMe.value) {
+          localStorage.setItem('remember-me', '1')
+          localStorage.setItem('remember-username', loginForm.username)
+        } else {
+          localStorage.removeItem('remember-me')
+          localStorage.removeItem('remember-username')
+        }
         // 跳转到重定向页面或首页
         const redirect = route.query.redirect || '/'
         router.push(redirect)

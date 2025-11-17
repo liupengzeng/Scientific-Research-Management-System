@@ -201,13 +201,13 @@
 
 ### Phase 2.1: 部门管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-2.1.1**: 后端 - 部门实体与数据层
+- [x] **TASK-2.1.1**: 后端 - 部门实体与数据层
 
   - 创建 `SysDept` 实体类
   - 创建 `SysDeptMapper` 接口
@@ -218,7 +218,7 @@
     - `resources/mapper/system/SysDeptMapper.xml`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-2.1.2**: 后端 - 部门业务逻辑层
+- [x] **TASK-2.1.2**: 后端 - 部门业务逻辑层
 
   - 创建 `SysDeptService` 接口
   - 创建 `SysDeptServiceImpl` 实现类
@@ -228,7 +228,7 @@
   - **文件路径**: `system/service/`
   - **验收标准**: 部门业务逻辑完整，支持树形查询
 
-- [ ] **TASK-2.1.3**: 后端 - 部门控制器
+- [x] **TASK-2.1.3**: 后端 - 部门控制器
 
   - 创建 `SysDeptController`
   - 实现部门列表查询（树形）
@@ -240,7 +240,7 @@
   - **API 路径**: `/api/system/dept`
   - **验收标准**: 部门管理 API 可用，通过 Knife4j 测试
 
-- [ ] **TASK-2.1.4**: 前端 - 部门管理页面
+- [x] **TASK-2.1.4**: 前端 - 部门管理页面
   - 创建 `views/system/dept/index.vue`
   - 实现部门树形列表展示
   - 实现部门新增/编辑对话框
@@ -253,7 +253,7 @@
 
 ### Phase 2.2: 用户管理
 
-**状态**: 🔄 进行中 (80%)  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 3-4 天
 
@@ -294,7 +294,7 @@
   - **API 路径**: `/api/system/user`
   - **验收标准**: 用户管理 API 可用
 
-- [ ] **TASK-2.2.4**: 前端 - 用户管理页面
+- [x] **TASK-2.2.4**: 前端 - 用户管理页面
   - 创建 `views/system/user/index.vue`
   - 实现用户列表（表格，支持分页）
   - 实现用户新增/编辑表单
@@ -308,13 +308,13 @@
 
 ### Phase 2.3: 角色管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-2.3.1**: 后端 - 角色实体与数据层
+- [x] **TASK-2.3.1**: 后端 - 角色实体与数据层
 
   - 创建 `SysRole` 实体类
   - 创建 `SysRoleMapper` 接口
@@ -322,7 +322,7 @@
   - **文件路径**: `system/domain/`, `system/mapper/`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-2.3.2**: 后端 - 角色业务逻辑层
+- [x] **TASK-2.3.2**: 后端 - 角色业务逻辑层
 
   - 创建 `SysRoleService` 接口
   - 创建 `SysRoleServiceImpl` 实现类
@@ -331,7 +331,7 @@
   - **文件路径**: `system/service/`
   - **验收标准**: 角色业务逻辑完整
 
-- [ ] **TASK-2.3.3**: 后端 - 角色控制器
+- [x] **TASK-2.3.3**: 后端 - 角色控制器
 
   - 创建 `SysRoleController`
   - 实现角色列表查询
@@ -343,7 +343,7 @@
   - **API 路径**: `/api/system/role`
   - **验收标准**: 角色管理 API 可用
 
-- [ ] **TASK-2.3.4**: 前端 - 角色管理页面
+- [x] **TASK-2.3.4**: 前端 - 角色管理页面
   - 创建 `views/system/role/index.vue`
   - 实现角色列表（表格）
   - 实现角色新增/编辑表单
@@ -355,13 +355,13 @@
 
 ### Phase 2.4: 菜单与权限管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 3-4 天
 
 #### 任务清单
 
-- [ ] **TASK-2.4.1**: 后端 - 菜单实体与数据层
+- [x] **TASK-2.4.1**: 后端 - 菜单实体与数据层
 
   - 创建 `SysMenu` 实体类
   - 创建 `SysMenuMapper` 接口
@@ -370,7 +370,7 @@
   - **文件路径**: `system/domain/`, `system/mapper/`
   - **验收标准**: 实体类和 Mapper 可用，支持树形查询
 
-- [ ] **TASK-2.4.2**: 后端 - 菜单业务逻辑层
+- [x] **TASK-2.4.2**: 后端 - 菜单业务逻辑层
 
   - 创建 `SysMenuService` 接口
   - 创建 `SysMenuServiceImpl` 实现类
@@ -381,7 +381,7 @@
   - **文件路径**: `system/service/`
   - **验收标准**: 菜单业务逻辑完整
 
-- [ ] **TASK-2.4.3**: 后端 - 菜单控制器
+- [x] **TASK-2.4.3**: 后端 - 菜单控制器
 
   - 创建 `SysMenuController`
   - 实现菜单列表查询（树形）
@@ -393,7 +393,7 @@
   - **API 路径**: `/api/system/menu`
   - **验收标准**: 菜单管理 API 可用
 
-- [ ] **TASK-2.4.4**: 后端 - 权限控制
+- [x] **TASK-2.4.4**: 后端 - 权限控制
 
   - 创建权限注解 `@PreAuthorize` 配置
   - 实现方法级权限校验
@@ -401,7 +401,7 @@
   - **文件路径**: `framework/security/`
   - **验收标准**: 权限控制生效
 
-- [ ] **TASK-2.4.5**: 前端 - 菜单管理页面
+- [x] **TASK-2.4.5**: 前端 - 菜单管理页面
 
   - 创建 `views/system/menu/index.vue`
   - 实现菜单树形列表展示
@@ -410,7 +410,7 @@
   - **文件路径**: `src/views/system/menu/`
   - **验收标准**: 菜单管理页面可用
 
-- [ ] **TASK-2.4.6**: 前端 - 角色权限分配
+- [x] **TASK-2.4.6**: 前端 - 角色权限分配
 
   - 在角色管理页面添加权限分配功能
   - 实现菜单权限树形选择
@@ -418,7 +418,7 @@
   - **文件路径**: `src/views/system/role/`
   - **验收标准**: 角色权限分配功能可用
 
-- [ ] **TASK-2.4.7**: 前端 - 动态菜单与权限指令
+- [x] **TASK-2.4.7**: 前端 - 动态菜单与权限指令
   - 实现根据用户权限动态生成菜单
   - 创建 `v-permission` 指令（按钮权限控制）
   - 在路由守卫中校验权限
@@ -429,13 +429,13 @@
 
 ### Phase 2.5: 登录与认证
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  (100%)  
 **优先级**: P0  
 **预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-2.5.1**: 后端 - 登录接口
+- [x] **TASK-2.5.1**: 后端 - 登录接口
 
   - 创建 `AuthController`
   - 实现登录接口（验证用户名密码）
@@ -446,21 +446,21 @@
   - **API 路径**: `/api/auth/login`
   - **验收标准**: 登录接口可用，返回 Token 和用户信息
 
-- [ ] **TASK-2.5.2**: 后端 - 登出接口
+- [x] **TASK-2.5.2**: 后端 - 登出接口
 
   - 实现登出接口
   - Token 失效处理（可选，使用 Redis 黑名单）
   - **API 路径**: `/api/auth/logout`
   - **验收标准**: 登出接口可用
 
-- [ ] **TASK-2.5.3**: 后端 - 获取当前用户信息
+- [x] **TASK-2.5.3**: 后端 - 获取当前用户信息
 
   - 实现获取当前登录用户信息接口
   - 返回用户基本信息、权限列表、菜单列表
   - **API 路径**: `/api/auth/userInfo`
   - **验收标准**: 获取用户信息接口可用
 
-- [ ] **TASK-2.5.4**: 前端 - 登录页面
+- [x] **TASK-2.5.4**: 前端 - 登录页面
 
   - 创建 `views/login/index.vue`
   - 实现登录表单
@@ -471,7 +471,7 @@
   - **文件路径**: `src/views/login/`
   - **验收标准**: 登录页面可用，可以成功登录
 
-- [ ] **TASK-2.5.5**: 前端 - 路由守卫完善
+- [x] **TASK-2.5.5**: 前端 - 路由守卫完善
   - 在路由守卫中实现 Token 验证
   - 实现 Token 过期自动跳转登录
   - 实现未登录自动跳转登录页
@@ -482,20 +482,20 @@
 
 ### Phase 2.6: 操作日志
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P2  
 **预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-2.6.1**: 后端 - 操作日志实体与数据层
+- [x] **TASK-2.6.1**: 后端 - 操作日志实体与数据层
 
   - 创建 `SysOperationLog` 实体类
   - 创建 `SysOperationLogMapper` 接口
   - **文件路径**: `system/domain/`, `system/mapper/`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-2.6.2**: 后端 - 操作日志 AOP 切面
+- [x] **TASK-2.6.2**: 后端 - 操作日志 AOP 切面
 
   - 创建 `@Log` 注解
   - 创建 `LogAspect` AOP 切面
@@ -503,7 +503,7 @@
   - **文件路径**: `common/annotation/`, `framework/web/`
   - **验收标准**: AOP 切面可用，可以自动记录日志
 
-- [ ] **TASK-2.6.3**: 后端 - 操作日志查询接口
+- [x] **TASK-2.6.3**: 后端 - 操作日志查询接口
 
   - 在 `SysOperationLogController` 中实现日志列表查询（分页）
   - 实现日志详情查询
@@ -512,7 +512,7 @@
   - **API 路径**: `/api/system/operationLog`
   - **验收标准**: 操作日志查询接口可用
 
-- [ ] **TASK-2.6.4**: 前端 - 操作日志页面
+- [x] **TASK-2.6.4**: 前端 - 操作日志页面
   - 创建 `views/system/operationLog/index.vue`
   - 实现日志列表（表格，支持分页、筛选）
   - 实现日志详情查看
@@ -1169,8 +1169,13 @@
   - Phase 1.1: ✅ 基本完成 (100%，数据库已初始化)
   - Phase 1.2: ✅ 已完成 (100%)
   - Phase 1.3: ✅ 已完成 (100%)
-- **第二阶段**: 🔄 进行中 (20%)
-  - Phase 2.2: 🔄 进行中 (80%，后端完成，前端待实现)
+- **第二阶段**: ✅ 已完成 (100%)
+  - Phase 2.1: ✅ 已完成 (100%)
+  - Phase 2.2: ✅ 已完成 (100%)
+  - Phase 2.3: ✅ 已完成 (100%)
+  - Phase 2.4: ✅ 已完成 (100%)
+  - Phase 2.5: ✅ 已完成 (100%)
+  - Phase 2.6: ✅ 已完成 (100%)
 - **第三阶段**: ⏳ 待开始 (0%)
 - **第四阶段**: ⏳ 待开始 (0%)
 - **第五阶段**: ⏳ 待开始 (0%)
@@ -1180,15 +1185,20 @@
 
 ### 已完成任务
 
-_暂无_
+- Phase 2.1 部门管理（后端 CRUD + 前端树形页面）
+- Phase 2.2 用户管理（后端 API + 前端页面）
+- Phase 2.3 角色管理（后端 API + 前端页面，含菜单分配）
+- Phase 2.4 菜单与权限管理（后端 CRUD、角色菜单分配；前端菜单管理页）
+- Phase 2.5 登录与认证完善（路由守卫、权限指令联动）
+ - Phase 2.6 操作日志（后端实体/Mapper/AOP切面/查询接口 + 前端页面）
 
 ### 进行中任务
 
-_暂无_
+- （空）
 
 ### 已完成功能模块
 
-_暂无_
+- 系统管理：用户、部门、角色、菜单
 
 ---
 
@@ -1219,8 +1229,26 @@ _暂无_
   - 验证并修复 vite.config.js 配置
   - API 代理、路径别名、Element Plus 自动导入均配置正确
   - 修复样式文件引用问题
-  - 创建前端配置验证说明文档
+- 创建前端配置验证说明文档
 
+### 2025-11-17
+
+- ✅ 完成 **TASK-2.5.5**：前端路由守卫完善（Token 过期自动跳转登录、未登录拦截）。
+- 涉及文件：`research-frontend/src/utils/auth.js`（新增 `isTokenExpired`）、`research-frontend/src/router/index.js`（前置守卫过期校验与跳转）。
+- 验收结论：过期 Token 导航时自动跳转登录页；未登录访问非白名单路由被拦截；与 `utils/request.js` 的 401 处理互补。
+
+#### Phase 2.6 执行进度
+
+- ✅ **TASK-2.6.1**：后端操作日志实体与数据层
+  - 代码：`system/domain/SysOperationLog.java`、`system/mapper/SysOperationLogMapper.java`、`resources/mapper/system/SysOperationLogMapper.xml`
+- ✅ **TASK-2.6.2**：后端操作日志 AOP 切面
+  - 代码：`common/annotation/Log.java`、`framework/web/LogAspect.java`
+- ✅ **TASK-2.6.3**：后端操作日志查询接口
+  - 代码：`system/controller/SysOperationLogController.java`
+  - API：`GET /api/system/operationLog/list`、`GET /api/system/operationLog/{logId}`、`DELETE /api/system/operationLog/{logIds}`
+- ✅ **TASK-2.6.4**：前端操作日志页面
+  - 代码：`research-frontend/src/views/system/operationLog/index.vue`、`src/api/operationLog.js`
+  - 路由：`/system/operationLog`
 #### Phase 1.2 执行进度
 
 - ✅ **TASK-1.2.1**: 完成 Spring Security + JWT 认证框架

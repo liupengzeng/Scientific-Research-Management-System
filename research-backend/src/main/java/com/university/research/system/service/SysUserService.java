@@ -3,6 +3,7 @@ package com.university.research.system.service;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.university.research.system.domain.SysUser;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 /**
@@ -113,5 +114,15 @@ public interface SysUserService {
      * @return 是否唯一
      */
     boolean checkPhoneUnique(String phone, Long userId);
+
+    /**
+     * 更新用户登录信息
+     *
+     * @param userId 用户ID
+     * @param ip     IP地址
+     * @param time   时间
+     * @return 影响行数
+     */
+    int updateLoginInfo(Long userId, String ip, LocalDateTime time);
 }
 

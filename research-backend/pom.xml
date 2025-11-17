@@ -109,6 +109,11 @@
             <version>${commons-pool2.version}</version>
         </dependency>
 
+<!--        <dependency>-->
+<!--            <groupId>org.mybatis</groupId>-->
+<!--            <artifactId>mybatis</artifactId>-->
+<!--        </dependency>-->
+
         <!-- JWT认证 -->
         <dependency>
             <groupId>io.jsonwebtoken</groupId>

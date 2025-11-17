@@ -1,7 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import { useUserStore } from '@/stores/user'
 import { usePermissionStore } from '@/stores/permission'
-import { getToken } from '@/utils/auth'
+import { getToken, isTokenExpired } from '@/utils/auth'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 
@@ -52,6 +52,24 @@ export const constantRoutes = [
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index.vue'),
         meta: { title: '首页', icon: 'House', affix: true }
+      },
+      {
+        path: 'system/user',
+        name: 'User',
+        component: () => import('@/views/system/user/index.vue'),
+        meta: { title: '用户管理', icon: 'User' }
+      },
+      {
+        path: 'system/operationLog',
+        name: 'OperationLog',
+        component: () => import('@/views/system/operationLog/index.vue'),
+        meta: { title: '操作日志', icon: 'Document' }
+      },
+      {
+        path: 'profile',
+        name: 'Profile',
+        component: () => import('@/views/profile/index.vue'),
+        meta: { title: '个人中心', icon: 'UserFilled' }
       }
     ]
   }
@@ -73,6 +91,13 @@ router.beforeEach(async (to, from, next) => {
   const hasToken = getToken()
 
   if (hasToken) {
+    if (isTokenExpired(hasToken)) {
+      const userStore = useUserStore()
+      await userStore.logout()
+      next(`/login?redirect=${to.path}`)
+      NProgress.done()
+      return
+    }
     // 已登录
     if (to.path === '/login') {
       // 如果已登录，跳转到首页

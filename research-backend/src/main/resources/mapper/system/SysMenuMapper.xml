@@ -1,0 +1,172 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.system.mapper.SysMenuMapper">
+
+    <resultMap id="MenuResult" type="com.university.research.system.domain.SysMenu">
+        <id property="menuId" column="menu_id"/>
+        <result property="menuName" column="menu_name"/>
+        <result property="parentId" column="parent_id"/>
+        <result property="path" column="path"/>
+        <result property="component" column="component"/>
+        <result property="perms" column="perms"/>
+        <result property="icon" column="icon"/>
+        <result property="menuType" column="menu_type"/>
+        <result property="orderNum" column="order_num"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <select id="selectAllEnabled" resultMap="MenuResult">
+        SELECT
+            menu_id, menu_name, parent_id, path, component, perms, icon, menu_type,
+            order_num, status, create_by, create_time, update_by, update_time, remark
+        FROM sys_menu
+        WHERE status = '0'
+        ORDER BY parent_id ASC, order_num ASC, menu_id ASC
+    </select>
+
+    <select id="selectMenuList" parameterType="com.university.research.system.domain.SysMenu" resultMap="MenuResult">
+        SELECT
+            menu_id, menu_name, parent_id, path, component, perms, icon, menu_type,
+            order_num, status, create_by, create_time, update_by, update_time, remark
+        FROM sys_menu
+        <where>
+            <if test="menuName != null and menuName != ''">
+                AND menu_name LIKE CONCAT('%', #{menuName}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+            <if test="menuType != null and menuType != ''">
+                AND menu_type = #{menuType}
+            </if>
+        </where>
+        ORDER BY parent_id ASC, order_num ASC, menu_id ASC
+    </select>
+
+    <select id="selectAll" resultMap="MenuResult">
+        SELECT
+            menu_id, menu_name, parent_id, path, component, perms, icon, menu_type,
+            order_num, status, create_by, create_time, update_by, update_time, remark
+        FROM sys_menu
+        ORDER BY parent_id ASC, order_num ASC, menu_id ASC
+    </select>
+
+    <select id="selectByRoleIds" parameterType="list" resultMap="MenuResult">
+        SELECT DISTINCT
+            m.menu_id, m.menu_name, m.parent_id, m.path, m.component, m.perms, m.icon, m.menu_type,
+            m.order_num, m.status, m.create_by, m.create_time, m.update_by, m.update_time, m.remark
+        FROM sys_menu m
+        LEFT JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
+        <where>
+            m.status = '0'
+            <if test="roleIds != null and roleIds.size() > 0">
+                AND rm.role_id IN
+                <foreach collection="roleIds" item="rid" open="(" separator="," close=")">
+                    #{rid}
+                </foreach>
+            </if>
+        </where>
+        ORDER BY m.parent_id ASC, m.order_num ASC, m.menu_id ASC
+    </select>
+
+    <select id="selectMenuById" parameterType="long" resultMap="MenuResult">
+        SELECT
+            menu_id, menu_name, parent_id, path, component, perms, icon, menu_type,
+            order_num, status, create_by, create_time, update_by, update_time, remark
+        FROM sys_menu
+        WHERE menu_id = #{menuId}
+    </select>
+
+    <insert id="insertMenu" parameterType="com.university.research.system.domain.SysMenu" useGeneratedKeys="true" keyProperty="menuId">
+        INSERT INTO sys_menu (menu_name, parent_id, path, component, perms, icon, menu_type,
+                              order_num, status, create_by, create_time, update_by, update_time, remark)
+        VALUES (#{menuName}, #{parentId}, #{path}, #{component}, #{perms}, #{icon}, #{menuType},
+                #{orderNum}, #{status}, #{createBy}, NOW(), #{updateBy}, NOW(), #{remark})
+    </insert>
+
+    <update id="updateMenu" parameterType="com.university.research.system.domain.SysMenu">
+        UPDATE sys_menu
+        SET menu_name = #{menuName},
+            parent_id = #{parentId},
+            path      = #{path},
+            component = #{component},
+            perms     = #{perms},
+            icon      = #{icon},
+            menu_type = #{menuType},
+            order_num = #{orderNum},
+            status    = #{status},
+            update_by = #{updateBy},
+            update_time = NOW(),
+            remark    = #{remark}
+        WHERE menu_id = #{menuId}
+    </update>
+
+    <delete id="deleteMenuById" parameterType="long">
+        DELETE FROM sys_menu WHERE menu_id = #{menuId}
+    </delete>
+
+    <update id="updateStatus">
+        UPDATE sys_menu SET status = #{status}, update_time = NOW()
+        WHERE menu_id = #{menuId}
+    </update>
+
+    <select id="countChildren" parameterType="long" resultType="int">
+        SELECT COUNT(1) FROM sys_menu WHERE parent_id = #{menuId}
+    </select>
+
+    <select id="checkMenuNameUnique" resultType="int">
+        SELECT COUNT(1)
+        FROM sys_menu
+        WHERE menu_name = #{menuName}
+          AND parent_id = #{parentId}
+        <if test="menuId != null">
+            AND menu_id != #{menuId}
+        </if>
+    </select>
+
+    <select id="selectMenuIdsByRoleId" parameterType="long" resultType="long">
+        SELECT menu_id FROM sys_role_menu WHERE role_id = #{roleId}
+    </select>
+
+    <delete id="deleteRoleMenuByRoleId" parameterType="long">
+        DELETE FROM sys_role_menu WHERE role_id = #{roleId}
+    </delete>
+
+    <insert id="batchRoleMenu">
+        INSERT INTO sys_role_menu (role_id, menu_id)
+        VALUES
+        <foreach collection="menuIds" item="mid" separator=",">
+            (#{roleId}, #{mid})
+        </foreach>
+    </insert>
+
+    <delete id="deleteRoleMenuByMenuId" parameterType="long">
+        DELETE FROM sys_role_menu WHERE menu_id = #{menuId}
+    </delete>
+
+    <select id="selectPermsByRoleIds" parameterType="list" resultType="string">
+        SELECT DISTINCT m.perms
+        FROM sys_menu m
+        LEFT JOIN sys_role_menu rm ON m.menu_id = rm.menu_id
+        <where>
+            m.status = '0'
+            AND m.perms IS NOT NULL
+            AND m.perms != ''
+            <if test="roleIds != null and roleIds.size() > 0">
+                AND rm.role_id IN
+                <foreach collection="roleIds" item="rid" open="(" separator="," close=")">
+                    #{rid}
+                </foreach>
+            </if>
+        </where>
+    </select>
+</mapper>
+
+

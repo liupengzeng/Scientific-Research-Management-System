@@ -5,6 +5,7 @@ import com.university.research.common.core.AjaxResult;
 import com.university.research.common.core.PageQuery;
 import com.university.research.common.core.PageResult;
 import com.university.research.system.domain.SysUser;
+import com.university.research.common.annotation.Log;
 import com.university.research.system.service.SysUserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -58,6 +59,7 @@ public class SysUserController {
     @Operation(summary = "新增用户")
     @PreAuthorize("hasAuthority('system:user:add')")
     @PostMapping
+    @Log(title = "新增用户", businessType = 1)
     public AjaxResult<Void> add(@Validated @RequestBody SysUser user) {
         userService.insertUser(user);
         return AjaxResult.success();
@@ -69,6 +71,7 @@ public class SysUserController {
     @Operation(summary = "修改用户")
     @PreAuthorize("hasAuthority('system:user:edit')")
     @PutMapping
+    @Log(title = "修改用户", businessType = 2)
     public AjaxResult<Void> edit(@Validated @RequestBody SysUser user) {
         userService.updateUser(user);
         return AjaxResult.success();
@@ -80,6 +83,7 @@ public class SysUserController {
     @Operation(summary = "删除用户")
     @PreAuthorize("hasAuthority('system:user:remove')")
     @DeleteMapping("/{userIds}")
+    @Log(title = "删除用户", businessType = 3)
     public AjaxResult<Void> remove(@PathVariable Long[] userIds) {
         userService.deleteUserByIds(userIds);
         return AjaxResult.success();
@@ -91,6 +95,7 @@ public class SysUserController {
     @Operation(summary = "重置用户密码")
     @PreAuthorize("hasAuthority('system:user:resetPwd')")
     @PutMapping("/resetPwd")
+    @Log(title = "重置用户密码", businessType = 5)
     public AjaxResult<Void> resetPwd(@RequestBody SysUser user) {
         userService.resetUserPassword(user.getUserId(), user.getPassword());
         return AjaxResult.success();
@@ -102,6 +107,7 @@ public class SysUserController {
     @Operation(summary = "修改用户状态")
     @PreAuthorize("hasAuthority('system:user:edit')")
     @PutMapping("/changeStatus")
+    @Log(title = "修改用户状态", businessType = 2)
     public AjaxResult<Void> changeStatus(@RequestBody SysUser user) {
         userService.changeStatus(user.getUserId(), user.getStatus());
         return AjaxResult.success();

@@ -63,12 +63,18 @@
             <result property="deptCode" column="dept_code"/>
         </association>
         <!-- 关联角色列表 -->
-        <collection property="roles" ofType="com.university.research.system.domain.SysRole">
-            <id property="roleId" column="role_id"/>
-            <result property="roleName" column="role_name"/>
-            <result property="roleKey" column="role_key"/>
+        <collection property="roles" ofType="com.university.research.system.domain.SysRole" 
+                    column="user_id" 
+                    select="selectRolesByUserId">
         </collection>
     </resultMap>
+
+    <update id="updateLoginInfo">
+        UPDATE sys_user
+        SET last_login_ip   = #{ip},
+            last_login_time = #{time}
+        WHERE user_id = #{userId}
+    </update>
 
     <!-- 根据用户名查询用户（包含部门信息） -->
     <select id="selectUserByUsername" parameterType="java.lang.String" resultMap="UserResult">
@@ -126,14 +132,9 @@
             u.remark,
             d.dept_id,
             d.dept_name,
-            d.dept_code,
-            r.role_id,
-            r.role_name,
-            r.role_key
+            d.dept_code
         FROM sys_user u
         LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
-        LEFT JOIN sys_user_role ur ON u.user_id = ur.user_id
-        LEFT JOIN sys_role r ON ur.role_id = r.role_id
         WHERE u.user_id = #{userId}
     </select>
 
@@ -161,14 +162,9 @@
             u.remark,
             d.dept_id,
             d.dept_name,
-            d.dept_code,
-            r.role_id,
-            r.role_name,
-            r.role_key
+            d.dept_code
         FROM sys_user u
         LEFT JOIN sys_dept d ON u.dept_id = d.dept_id
-        LEFT JOIN sys_user_role ur ON u.user_id = ur.user_id
-        LEFT JOIN sys_role r ON ur.role_id = r.role_id
         <where>
             <if test="username != null and username != ''">
                 AND u.username LIKE CONCAT('%', #{username}, '%')
@@ -189,6 +185,25 @@
             </if>
         </where>
         ORDER BY u.create_time DESC
+    </select>
+
+    <!-- 根据用户ID查询角色列表 -->
+    <select id="selectRolesByUserId" parameterType="java.lang.Long" resultType="com.university.research.system.domain.SysRole">
+        SELECT 
+            r.role_id,
+            r.role_name,
+            r.role_key,
+            r.role_sort,
+            r.status,
+            r.create_by,
+            r.create_time,
+            r.update_by,
+            r.update_time,
+            r.remark
+        FROM sys_role r
+        INNER JOIN sys_user_role ur ON r.role_id = ur.role_id
+        WHERE ur.user_id = #{userId}
+        AND r.status = '0'
     </select>
 
     <!-- 根据用户ID查询角色ID列表 -->
