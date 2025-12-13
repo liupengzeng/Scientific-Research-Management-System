@@ -764,44 +764,55 @@
 
 ### Phase 4.1: 论文管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 3-4 天
 
 #### 任务清单
 
-- [ ] **TASK-4.1.1**: 后端 - 论文实体与数据层
+- [x] **TASK-4.1.1**: 后端 - 论文实体与数据层
 
   - 创建 `ResearchPaper` 实体类
-  - 创建 `ResearchPaperMapper` 接口
+  - 创建 `ResearchPaperMapper` 接口和 XML 映射文件
+  - 创建 `ResearchPaperApproval` 实体类（论文审核记录）
+  - 创建 `ResearchPaperApprovalMapper` 接口和 XML 映射文件
+  - 更新 SQL 文件，添加 `research_paper_approval` 表
   - **文件路径**: `research/domain/`, `research/mapper/`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-4.1.2**: 后端 - 论文业务逻辑层
+- [x] **TASK-4.1.2**: 后端 - 论文业务逻辑层
 
-  - 创建 `ResearchPaperService` 接口
-  - 创建 `ResearchPaperServiceImpl` 实现类
-  - 实现论文 CRUD 操作
-  - 实现论文审核状态管理
+  - 创建 `ResearchPaperService` 接口和实现类
+  - 创建 `ResearchPaperApprovalService` 接口和实现类
+  - 实现论文 CRUD 操作（创建草稿、更新、删除）
+  - 实现论文提交审核（draft -> submitted）
+  - 实现论文多级审核（submitted -> approved/rejected，支持 finalFlag）
   - **文件路径**: `research/service/`
   - **验收标准**: 论文业务逻辑完整
 
-- [ ] **TASK-4.1.3**: 后端 - 论文控制器
+- [x] **TASK-4.1.3**: 后端 - 论文控制器
 
   - 创建 `ResearchPaperController`
-  - 实现论文列表查询（分页，支持筛选）
-  - 实现论文新增
-  - 实现论文修改
+  - 实现论文列表查询（分页，支持多条件筛选）
+  - 实现论文新增（草稿）
+  - 实现论文修改（仅草稿可编辑）
   - 实现论文删除
-  - 实现论文审核
+  - 实现论文提交审核
+  - 实现论文审核（多级审核，支持终审标识）
+  - 实现审核记录查询
   - **文件路径**: `research/controller/ResearchPaperController.java`
   - **API 路径**: `/api/research/paper`
   - **验收标准**: 论文管理 API 可用
 
-- [ ] **TASK-4.1.4**: 前端 - 论文管理页面
-  - 创建 `views/research/paper/index.vue`
-  - 实现论文列表（表格，支持分页、筛选）
-  - 实现论文新增/编辑表单
+- [x] **TASK-4.1.4**: 前端 - 论文管理页面
+  - 创建 `views/research/paper/index.vue`（论文列表，支持分页、多条件筛选）
+  - 创建 `views/research/paper/form.vue`（论文新增/编辑表单，支持附件上传）
+  - 创建 `views/research/paper/approval.vue`（论文审核页面，支持多级审核）
+  - 创建 `src/api/paper.js`（论文管理 API 封装）
+  - 实现论文级别固定枚举（SCI、EI、核心期刊、普通期刊、会议论文、其他）
+  - 实现附件上传（复用 MinIO 上传接口）
+  - **文件路径**: `src/views/research/paper/`
+  - **验收标准**: 论文管理页面可用
   - 实现论文附件上传
   - 实现论文审核功能
   - **文件路径**: `src/views/research/paper/`
@@ -811,25 +822,30 @@
 
 ### Phase 4.2: 著作管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-4.2.1**: 后端 - 著作实体与业务逻辑
+- [x] **TASK-4.2.1**: 后端 - 著作实体与业务逻辑
 
+  - 更新 SQL 文件，添加 `research_book` 表
   - 创建 `ResearchBook` 实体类
-  - 创建 `ResearchBookMapper` 接口
+  - 创建 `ResearchBookMapper` 接口和 XML 映射文件
   - 创建 `ResearchBookService` 和实现类
   - 创建 `ResearchBookController`
+  - 实现著作 CRUD 操作（分页查询、新增、更新、删除）
   - **文件路径**: `research/domain/`, `research/mapper/`, `research/service/`, `research/controller/`
   - **API 路径**: `/api/research/book`
   - **验收标准**: 著作管理 API 可用
 
-- [ ] **TASK-4.2.2**: 前端 - 著作管理页面
-  - 创建 `views/research/book/index.vue`
-  - 实现著作列表、新增、编辑、删除
+- [x] **TASK-4.2.2**: 前端 - 著作管理页面
+  - 创建 `src/api/book.js`（著作管理 API 封装）
+  - 创建 `views/research/book/index.vue`（著作列表，支持分页、多条件筛选）
+  - 创建 `views/research/book/form.vue`（著作新增/编辑表单）
+  - 实现著作列表、新增、编辑、删除功能
+  - 实现著作类型固定枚举（专著、译著、教材、工具书、其他）
   - **文件路径**: `src/views/research/book/`
   - **验收标准**: 著作管理页面可用
 
@@ -837,25 +853,39 @@
 
 ### Phase 4.3: 专利管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-4.3.1**: 后端 - 专利实体与业务逻辑
+- [x] **TASK-4.3.1**: 后端 - 专利实体与业务逻辑
 
+  - 更新 SQL 文件，添加 `research_patent_approval` 表
   - 创建 `ResearchPatent` 实体类
-  - 创建 `ResearchPatentMapper` 接口
+  - 创建 `ResearchPatentApproval` 实体类（专利审核记录）
+  - 创建 `ResearchPatentMapper` 接口和 XML 映射文件
+  - 创建 `ResearchPatentApprovalMapper` 接口和 XML 映射文件
   - 创建 `ResearchPatentService` 和实现类
-  - 创建 `ResearchPatentController`
+  - 创建 `ResearchPatentApprovalService` 和实现类
+  - 创建 `ResearchPatentController`（包含审核相关接口）
+  - 实现专利 CRUD 操作（创建草稿、更新、删除）
+  - 实现专利提交审核（draft -> submitted）
+  - 实现专利多级审核（submitted -> approved/rejected，支持 finalFlag）
   - **文件路径**: `research/domain/`, `research/mapper/`, `research/service/`, `research/controller/`
   - **API 路径**: `/api/research/patent`
   - **验收标准**: 专利管理 API 可用
 
-- [ ] **TASK-4.3.2**: 前端 - 专利管理页面
-  - 创建 `views/research/patent/index.vue`
-  - 实现专利列表、新增、编辑、删除
+- [x] **TASK-4.3.2**: 前端 - 专利管理页面
+  - 创建 `src/api/patent.js`（专利管理 API 封装）
+  - 创建 `views/research/patent/index.vue`（专利列表，支持分页、多条件筛选）
+  - 创建 `views/research/patent/form.vue`（专利新增/编辑表单，包含附件上传、项目关联）
+  - 创建 `views/research/patent/approval.vue`（专利审核页面，支持多级审核）
+  - 实现专利列表、新增、编辑、删除、提交、审核功能
+  - 实现专利类型固定枚举（发明专利、实用新型专利、外观设计专利、其他）
+  - 实现专利状态固定枚举（申请中、已授权、已转化、已失效、其他）
+  - 实现附件上传（复用 MinIO 上传接口）
+  - 实现项目关联（支持按项目ID筛选）
   - **文件路径**: `src/views/research/patent/`
   - **验收标准**: 专利管理页面可用
 
@@ -863,25 +893,32 @@
 
 ### Phase 4.4: 获奖管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-4.4.1**: 后端 - 获奖实体与业务逻辑
+- [x] **TASK-4.4.1**: 后端 - 获奖实体与业务逻辑
 
+  - 更新 SQL 文件，添加 `research_award` 表
   - 创建 `ResearchAward` 实体类
-  - 创建 `ResearchAwardMapper` 接口
+  - 创建 `ResearchAwardMapper` 接口和 XML 映射文件
   - 创建 `ResearchAwardService` 和实现类
   - 创建 `ResearchAwardController`
+  - 实现获奖 CRUD 操作（分页查询、新增、更新、删除）
   - **文件路径**: `research/domain/`, `research/mapper/`, `research/service/`, `research/controller/`
   - **API 路径**: `/api/research/award`
   - **验收标准**: 获奖管理 API 可用
 
-- [ ] **TASK-4.4.2**: 前端 - 获奖管理页面
-  - 创建 `views/research/award/index.vue`
-  - 实现获奖列表、新增、编辑、删除
+- [x] **TASK-4.4.2**: 前端 - 获奖管理页面
+  - 创建 `src/api/award.js`（获奖管理 API 封装）
+  - 创建 `views/research/award/index.vue`（获奖列表，支持分页、多条件筛选）
+  - 创建 `views/research/award/form.vue`（获奖新增/编辑表单，包含附件上传）
+  - 实现获奖列表、新增、编辑、删除功能
+  - 实现获奖类型固定枚举（国家级、省部级、校级）
+  - 实现获奖等级固定枚举（一等奖、二等奖、三等奖）
+  - 实现附件上传（复用 MinIO 上传接口）
   - **文件路径**: `src/views/research/award/`
   - **验收标准**: 获奖管理页面可用
 
@@ -1188,13 +1225,17 @@
   - Phase 2.4: ✅ 已完成 (100%)
   - Phase 2.5: ✅ 已完成 (100%)
   - Phase 2.6: ✅ 已完成 (100%)
-- **第三阶段**: 🔄 进行中 (80%)
+- **第三阶段**: ✅ 已完成 (100%)
   - Phase 3.1: ✅ 已完成 (100%)
   - Phase 3.2: ✅ 已完成 (100%)
   - Phase 3.3: ✅ 已完成 (100%)
   - Phase 3.4: ✅ 已完成 (100%)
   - Phase 3.5: ✅ 已完成 (100%)
-- **第四阶段**: ⏳ 待开始 (0%)
+- **第四阶段**: ✅ 已完成 (100%)
+  - Phase 4.1: ✅ 已完成 (100%)
+  - Phase 4.2: ✅ 已完成 (100%)
+  - Phase 4.3: ✅ 已完成 (100%)
+  - Phase 4.4: ✅ 已完成 (100%)
 - **第五阶段**: ⏳ 待开始 (0%)
 - **第六阶段**: ⏳ 待开始 (0%)
 - **第七阶段**: ⏳ 待开始 (0%)
@@ -1213,6 +1254,10 @@
 - Phase 3.3 项目审批流程（后端审批实体/Mapper/XML/Service + 审批接口 + 前端审批页面/记录查看完成，支持多级审批）
 - Phase 3.4 项目中检与结题（后端中检/结题实体/Mapper/XML/Service + 中检/结题/验收接口 + MinIO文件上传 + 前端中检/结题页面完成，状态流转完整）
 - Phase 3.5 项目成员管理（后端成员实体/Mapper/XML/Service + 成员管理接口 + 前端项目详情页Tab/成员管理完成，支持角色/工作量/任务编辑，仅显示教师用户）
+- Phase 4.1 论文管理（后端论文/审核实体/Mapper/XML/Service + 论文CRUD/提交/多级审核接口 + MinIO附件上传 + 前端论文列表/表单/审核页面完成，论文级别固定枚举，作者手动输入）
+- Phase 4.2 著作管理（后端著作实体/Mapper/XML/Service + 著作CRUD接口 + 前端著作列表/表单页面完成，著作类型固定枚举，无审核流程，无项目关联，无附件上传）
+- Phase 4.3 专利管理（后端专利/审核实体/Mapper/XML/Service + 专利CRUD/提交/多级审核接口 + MinIO附件上传 + 前端专利列表/表单/审核页面完成，专利类型/状态固定枚举，支持项目关联）
+- Phase 4.4 获奖管理（后端获奖实体/Mapper/XML/Service + 获奖CRUD接口 + MinIO附件上传 + 前端获奖列表/表单页面完成，获奖类型/等级固定枚举，无审核流程，无项目关联）
 
 ### 进行中任务
 

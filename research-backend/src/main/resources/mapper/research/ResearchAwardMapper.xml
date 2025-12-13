@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.ResearchAwardMapper">
+
+    <resultMap id="AwardResult" type="com.university.research.research.domain.ResearchAward">
+        <id property="awardId" column="award_id"/>
+        <result property="awardName" column="award_name"/>
+        <result property="awardees" column="awardees"/>
+        <result property="awardLevel" column="award_level"/>
+        <result property="awardType" column="award_type"/>
+        <result property="awardDate" column="award_date"/>
+        <result property="awardingUnit" column="awarding_unit"/>
+        <result property="certificateNo" column="certificate_no"/>
+        <result property="bonus" column="bonus"/>
+        <result property="attachmentPath" column="attachment_path"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="columns">
+        award_id, award_name, awardees, award_level, award_type, award_date, awarding_unit,
+        certificate_no, bonus, attachment_path, status, create_by, create_time, update_by, update_time, remark
+    </sql>
+
+    <select id="selectAwardList" resultMap="AwardResult">
+        select
+        <include refid="columns"/>
+        from research_award
+        <where>
+            <if test="award.awardName != null and award.awardName != ''">
+                AND award_name LIKE CONCAT('%', #{award.awardName}, '%')
+            </if>
+            <if test="award.awardees != null and award.awardees != ''">
+                AND awardees LIKE CONCAT('%', #{award.awardees}, '%')
+            </if>
+            <if test="award.awardType != null and award.awardType != ''">
+                AND award_type = #{award.awardType}
+            </if>
+            <if test="award.awardLevel != null and award.awardLevel != ''">
+                AND award_level = #{award.awardLevel}
+            </if>
+            <if test="award.status != null and award.status != ''">
+                AND status = #{award.status}
+            </if>
+            <if test="award.beginTime != null and award.beginTime != ''">
+                AND DATE_FORMAT(award_date, '%Y-%m-%d') &gt;= #{award.beginTime}
+            </if>
+            <if test="award.endTime != null and award.endTime != ''">
+                AND DATE_FORMAT(award_date, '%Y-%m-%d') &lt;= #{award.endTime}
+            </if>
+        </where>
+        order by award_date desc, create_time desc
+    </select>
+
+</mapper>
+

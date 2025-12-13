@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.ResearchPatentMapper">
+
+    <resultMap id="PatentResult" type="com.university.research.research.domain.ResearchPatent">
+        <id property="patentId" column="patent_id"/>
+        <result property="patentName" column="patent_name"/>
+        <result property="inventors" column="inventors"/>
+        <result property="patentType" column="patent_type"/>
+        <result property="patentNo" column="patent_no"/>
+        <result property="applicationDate" column="application_date"/>
+        <result property="authorizationDate" column="authorization_date"/>
+        <result property="validUntil" column="valid_until"/>
+        <result property="patentStatus" column="patent_status"/>
+        <result property="attachmentPath" column="attachment_path"/>
+        <result property="projectId" column="project_id"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="projectName" column="project_name"/>
+    </resultMap>
+
+    <sql id="columns">
+        p.patent_id, p.patent_name, p.inventors, p.patent_type, p.patent_no, p.application_date,
+        p.authorization_date, p.valid_until, p.patent_status, p.attachment_path, p.project_id, p.status,
+        p.create_by, p.create_time, p.update_by, p.update_time, p.remark
+    </sql>
+
+    <select id="selectPatentList" resultMap="PatentResult">
+        select
+        <include refid="columns"/>,
+        pr.project_name
+        from research_patent p
+        left join research_project pr on p.project_id = pr.project_id
+        <where>
+            <if test="patent.patentName != null and patent.patentName != ''">
+                AND p.patent_name LIKE CONCAT('%', #{patent.patentName}, '%')
+            </if>
+            <if test="patent.inventors != null and patent.inventors != ''">
+                AND p.inventors LIKE CONCAT('%', #{patent.inventors}, '%')
+            </if>
+            <if test="patent.patentType != null and patent.patentType != ''">
+                AND p.patent_type = #{patent.patentType}
+            </if>
+            <if test="patent.patentStatus != null and patent.patentStatus != ''">
+                AND p.patent_status = #{patent.patentStatus}
+            </if>
+            <if test="patent.status != null and patent.status != ''">
+                AND p.status = #{patent.status}
+            </if>
+            <if test="patent.projectId != null">
+                AND p.project_id = #{patent.projectId}
+            </if>
+            <if test="patent.beginTime != null and patent.beginTime != ''">
+                AND DATE_FORMAT(p.application_date, '%Y-%m-%d') &gt;= #{patent.beginTime}
+            </if>
+            <if test="patent.endTime != null and patent.endTime != ''">
+                AND DATE_FORMAT(p.application_date, '%Y-%m-%d') &lt;= #{patent.endTime}
+            </if>
+        </where>
+        order by p.application_date desc, p.create_time desc
+    </select>
+
+</mapper>
+

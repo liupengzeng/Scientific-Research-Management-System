@@ -298,6 +298,22 @@ CREATE TABLE `research_paper` (
                                   CONSTRAINT `fk_paper_project` FOREIGN KEY (`project_id`) REFERENCES `research_project` (`project_id`)
 ) ENGINE=InnoDB COMMENT='论文成果表';
 
+-- 论文审批记录表
+CREATE TABLE `research_paper_approval` (
+                                          `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                          `paper_id` BIGINT NOT NULL COMMENT '论文ID',
+                                          `decision` VARCHAR(20) NOT NULL COMMENT '审批决定(approve:通过 reject:驳回)',
+                                          `comment` VARCHAR(1000) NOT NULL COMMENT '审批意见',
+                                          `approver_id` BIGINT NOT NULL COMMENT '审批人ID',
+                                          `approver_name` VARCHAR(100) DEFAULT '' COMMENT '审批人名称',
+                                          `final_flag` TINYINT DEFAULT 0 COMMENT '是否终审(1是 0否)',
+                                          `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                          `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                          PRIMARY KEY (`id`),
+                                          KEY `idx_paper_id` (`paper_id`),
+                                          CONSTRAINT `fk_paper_approval` FOREIGN KEY (`paper_id`) REFERENCES `research_paper` (`paper_id`)
+) ENGINE=InnoDB COMMENT='论文审批记录表';
+
 -- 专利成果表
 CREATE TABLE `research_patent` (
                                    `patent_id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '专利ID',
@@ -322,6 +338,69 @@ CREATE TABLE `research_patent` (
                                    KEY `idx_project_id` (`project_id`),
                                    CONSTRAINT `fk_patent_project` FOREIGN KEY (`project_id`) REFERENCES `research_project` (`project_id`)
 ) ENGINE=InnoDB COMMENT='专利成果表';
+
+-- 专利审批记录表
+CREATE TABLE `research_patent_approval` (
+                                          `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键ID',
+                                          `patent_id` BIGINT NOT NULL COMMENT '专利ID',
+                                          `decision` VARCHAR(20) NOT NULL COMMENT '审批决定(approve:通过 reject:驳回)',
+                                          `comment` VARCHAR(1000) NOT NULL COMMENT '审批意见',
+                                          `approver_id` BIGINT NOT NULL COMMENT '审批人ID',
+                                          `approver_name` VARCHAR(100) DEFAULT '' COMMENT '审批人名称',
+                                          `final_flag` TINYINT DEFAULT 0 COMMENT '是否终审(1是 0否)',
+                                          `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                          `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                          PRIMARY KEY (`id`),
+                                          KEY `idx_patent_id` (`patent_id`),
+                                          CONSTRAINT `fk_patent_approval` FOREIGN KEY (`patent_id`) REFERENCES `research_patent` (`patent_id`)
+) ENGINE=InnoDB COMMENT='专利审批记录表';
+
+-- 著作成果表
+CREATE TABLE `research_book` (
+                                `book_id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '著作ID',
+                                `book_title` VARCHAR(500) NOT NULL COMMENT '书名',
+                                `authors` VARCHAR(1000) NOT NULL COMMENT '作者列表（按顺序，逗号分隔）',
+                                `publisher` VARCHAR(300) NOT NULL COMMENT '出版社',
+                                `publish_date` DATE COMMENT '出版日期',
+                                `isbn` VARCHAR(50) COMMENT 'ISBN号',
+                                `page_count` INT COMMENT '页数',
+                                `word_count` INT COMMENT '字数（万字）',
+                                `book_type` VARCHAR(50) COMMENT '著作类型（专著、译著、教材、工具书、其他）',
+                                `status` VARCHAR(50) DEFAULT 'active' COMMENT '状态（active:有效 inactive:无效）',
+                                `create_by` VARCHAR(64) DEFAULT '' COMMENT '创建者',
+                                `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                `update_by` VARCHAR(64) DEFAULT '' COMMENT '更新者',
+                                `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                `remark` VARCHAR(500) DEFAULT NULL COMMENT '备注',
+                                PRIMARY KEY (`book_id`),
+                                UNIQUE KEY `idx_isbn` (`isbn`),
+                                KEY `idx_publish_date` (`publish_date`),
+                                KEY `idx_book_type` (`book_type`)
+) ENGINE=InnoDB COMMENT='著作成果表';
+
+-- 获奖成果表
+CREATE TABLE `research_award` (
+                                 `award_id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '获奖ID',
+                                 `award_name` VARCHAR(500) NOT NULL COMMENT '获奖名称',
+                                 `awardees` VARCHAR(1000) NOT NULL COMMENT '获奖人/团队（按顺序，逗号分隔）',
+                                 `award_level` VARCHAR(50) COMMENT '获奖等级（一等奖、二等奖、三等奖）',
+                                 `award_type` VARCHAR(50) COMMENT '获奖类型（国家级、省部级、校级）',
+                                 `award_date` DATE COMMENT '获奖日期',
+                                 `awarding_unit` VARCHAR(300) COMMENT '颁奖单位',
+                                 `certificate_no` VARCHAR(100) COMMENT '证书编号',
+                                 `bonus` DECIMAL(15,2) COMMENT '奖金（万元）',
+                                 `attachment_path` VARCHAR(500) COMMENT '附件路径',
+                                 `status` VARCHAR(50) DEFAULT 'active' COMMENT '状态（active:有效 inactive:无效）',
+                                 `create_by` VARCHAR(64) DEFAULT '' COMMENT '创建者',
+                                 `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                 `update_by` VARCHAR(64) DEFAULT '' COMMENT '更新者',
+                                 `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                 `remark` VARCHAR(500) DEFAULT NULL COMMENT '备注',
+                                 PRIMARY KEY (`award_id`),
+                                 KEY `idx_award_date` (`award_date`),
+                                 KEY `idx_award_type` (`award_type`),
+                                 KEY `idx_award_level` (`award_level`)
+) ENGINE=InnoDB COMMENT='获奖成果表';
 
 -- 科研经费表
 CREATE TABLE `research_funding` (

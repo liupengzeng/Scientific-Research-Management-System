@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.ResearchPaperMapper">
+
+    <resultMap id="PaperResult" type="com.university.research.research.domain.ResearchPaper">
+        <id property="paperId" column="paper_id"/>
+        <result property="paperTitle" column="paper_title"/>
+        <result property="authors" column="authors"/>
+        <result property="correspondingAuthorId" column="corresponding_author_id"/>
+        <result property="journalName" column="journal_name"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="volume" column="volume"/>
+        <result property="issue" column="issue"/>
+        <result property="pageRange" column="page_range"/>
+        <result property="doi" column="doi"/>
+        <result property="paperLevel" column="paper_level"/>
+        <result property="impactFactor" column="impact_factor"/>
+        <result property="citationCount" column="citation_count"/>
+        <result property="keywords" column="keywords"/>
+        <result property="abstractText" column="abstract_text"/>
+        <result property="attachmentPath" column="attachment_path"/>
+        <result property="projectId" column="project_id"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+        <result property="correspondingAuthorName" column="corresponding_author_name"/>
+        <result property="projectName" column="project_name"/>
+    </resultMap>
+
+    <sql id="columns">
+        p.paper_id, p.paper_title, p.authors, p.corresponding_author_id, p.journal_name, p.publish_date,
+        p.volume, p.issue, p.page_range, p.doi, p.paper_level, p.impact_factor, p.citation_count,
+        p.keywords, p.abstract_text, p.attachment_path, p.project_id, p.status,
+        p.create_by, p.create_time, p.update_by, p.update_time, p.remark
+    </sql>
+
+    <select id="selectPaperList" resultMap="PaperResult">
+        select
+        <include refid="columns"/>,
+        u.real_name as corresponding_author_name,
+        pr.project_name
+        from research_paper p
+        left join sys_user u on p.corresponding_author_id = u.user_id
+        left join research_project pr on p.project_id = pr.project_id
+        <where>
+            <if test="paper.paperTitle != null and paper.paperTitle != ''">
+                AND p.paper_title LIKE CONCAT('%', #{paper.paperTitle}, '%')
+            </if>
+            <if test="paper.authors != null and paper.authors != ''">
+                AND p.authors LIKE CONCAT('%', #{paper.authors}, '%')
+            </if>
+            <if test="paper.journalName != null and paper.journalName != ''">
+                AND p.journal_name LIKE CONCAT('%', #{paper.journalName}, '%')
+            </if>
+            <if test="paper.paperLevel != null and paper.paperLevel != ''">
+                AND p.paper_level = #{paper.paperLevel}
+            </if>
+            <if test="paper.status != null and paper.status != ''">
+                AND p.status = #{paper.status}
+            </if>
+            <if test="paper.projectId != null">
+                AND p.project_id = #{paper.projectId}
+            </if>
+            <if test="paper.beginTime != null and paper.beginTime != ''">
+                AND DATE_FORMAT(p.publish_date, '%Y-%m-%d') &gt;= #{paper.beginTime}
+            </if>
+            <if test="paper.endTime != null and paper.endTime != ''">
+                AND DATE_FORMAT(p.publish_date, '%Y-%m-%d') &lt;= #{paper.endTime}
+            </if>
+        </where>
+        order by p.publish_date desc, p.create_time desc
+    </select>
+
+</mapper>
+

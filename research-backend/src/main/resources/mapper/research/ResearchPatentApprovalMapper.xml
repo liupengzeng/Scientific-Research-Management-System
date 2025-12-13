@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.ResearchPatentApprovalMapper">
+
+    <resultMap id="ApprovalResult" type="com.university.research.research.domain.ResearchPatentApproval">
+        <id property="id" column="id"/>
+        <result property="patentId" column="patent_id"/>
+        <result property="decision" column="decision"/>
+        <result property="comment" column="comment"/>
+        <result property="approverId" column="approver_id"/>
+        <result property="approverName" column="approver_name"/>
+        <result property="finalFlag" column="final_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <select id="selectApprovalList" resultMap="ApprovalResult">
+        select id, patent_id, decision, comment, approver_id, approver_name, final_flag, create_time, update_time
+        from research_patent_approval
+        where patent_id = #{patentId}
+        order by create_time desc
+    </select>
+
+</mapper>
+

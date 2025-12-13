@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.ResearchBookMapper">
+
+    <resultMap id="BookResult" type="com.university.research.research.domain.ResearchBook">
+        <id property="bookId" column="book_id"/>
+        <result property="bookTitle" column="book_title"/>
+        <result property="authors" column="authors"/>
+        <result property="publisher" column="publisher"/>
+        <result property="publishDate" column="publish_date"/>
+        <result property="isbn" column="isbn"/>
+        <result property="pageCount" column="page_count"/>
+        <result property="wordCount" column="word_count"/>
+        <result property="bookType" column="book_type"/>
+        <result property="status" column="status"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="remark" column="remark"/>
+    </resultMap>
+
+    <sql id="columns">
+        book_id, book_title, authors, publisher, publish_date, isbn, page_count, word_count,
+        book_type, status, create_by, create_time, update_by, update_time, remark
+    </sql>
+
+    <select id="selectBookList" resultMap="BookResult">
+        select
+        <include refid="columns"/>
+        from research_book
+        <where>
+            <if test="book.bookTitle != null and book.bookTitle != ''">
+                AND book_title LIKE CONCAT('%', #{book.bookTitle}, '%')
+            </if>
+            <if test="book.authors != null and book.authors != ''">
+                AND authors LIKE CONCAT('%', #{book.authors}, '%')
+            </if>
+            <if test="book.publisher != null and book.publisher != ''">
+                AND publisher LIKE CONCAT('%', #{book.publisher}, '%')
+            </if>
+            <if test="book.bookType != null and book.bookType != ''">
+                AND book_type = #{book.bookType}
+            </if>
+            <if test="book.status != null and book.status != ''">
+                AND status = #{book.status}
+            </if>
+            <if test="book.beginTime != null and book.beginTime != ''">
+                AND DATE_FORMAT(publish_date, '%Y-%m-%d') &gt;= #{book.beginTime}
+            </if>
+            <if test="book.endTime != null and book.endTime != ''">
+                AND DATE_FORMAT(publish_date, '%Y-%m-%d') &lt;= #{book.endTime}
+            </if>
+        </where>
+        order by publish_date desc, create_time desc
+    </select>
+
+</mapper>
+
