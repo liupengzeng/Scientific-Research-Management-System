@@ -22,7 +22,7 @@ public class SysOperationLogServiceImpl implements SysOperationLogService {
 
     @Override
     public Page<SysOperationLog> selectLogPage(Page<SysOperationLog> page, SysOperationLog query) {
-        List<SysOperationLog> list = logMapper.selectLogList(query);
+        List<SysOperationLog> list = logMapper.selectLogList(page, query);
         page.setRecords(list);
         return page;
     }

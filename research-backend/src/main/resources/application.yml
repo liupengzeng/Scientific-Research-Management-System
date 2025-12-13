@@ -80,5 +80,12 @@ logging:
 # Knife4j配置
 knife4j:
   enable: true
+
+# MinIO配置（请替换为真实参数）
+minio:
+  endpoint: http://localhost:9000
+  access-key: minioadmin
+  secret-key: minioadmin
+  bucket: research
   setting:
     language: zh_cn

@@ -92,9 +92,15 @@
         </if>
     </select>
 
+</mapper>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.system.mapper.SysRoleMapper">
 
     <!-- 结果映射 -->
- <!--   <resultMap id="RoleResult" type="com.university.research.system.domain.SysRole">
+    <resultMap id="RoleResult" type="com.university.research.system.domain.SysRole">
         <id property="roleId" column="role_id"/>
         <result property="roleName" column="role_name"/>
         <result property="roleKey" column="role_key"/>
@@ -106,9 +112,8 @@
         <result property="updateTime" column="update_time"/>
         <result property="remark" column="remark"/>
     </resultMap>
--->
+
     <!-- 查询角色列表（仅查询正常状态的角色） -->
-<!--
     <select id="selectRoleList" resultMap="RoleResult">
         SELECT
             role_id,
@@ -125,7 +130,6 @@
         WHERE status = '0'
         ORDER BY role_sort ASC, role_id ASC
     </select>
--->
 
 </mapper>
 

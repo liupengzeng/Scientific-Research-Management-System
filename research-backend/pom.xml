@@ -34,6 +34,7 @@
         <hutool.version>5.8.22</hutool.version>
         <commons-pool2.version>2.12.0</commons-pool2.version>
         <druid.version>1.2.20</druid.version>
+        <minio.version>8.5.3</minio.version>
     </properties>
 
     <dependencies>
@@ -233,6 +234,13 @@
             <groupId>com.github.whvcse</groupId>
             <artifactId>easy-captcha</artifactId>
             <version>1.6.2</version>
+        </dependency>
+
+        <!-- MinIO 客户端 -->
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
         </dependency>
     </dependencies>
 

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.ResearchProjectMemberMapper">
+
+    <resultMap id="MemberResult" type="com.university.research.research.domain.ResearchProjectMember">
+        <id property="id" column="id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="userId" column="user_id"/>
+        <result property="memberRole" column="member_role"/>
+        <result property="workloadRatio" column="workload_ratio"/>
+        <result property="responsibility" column="responsibility"/>
+        <result property="joinDate" column="join_date"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+        <result property="username" column="username"/>
+        <result property="realName" column="real_name"/>
+        <result property="deptName" column="dept_name"/>
+    </resultMap>
+
+    <sql id="columns">
+        m.id, m.project_id, m.user_id, m.member_role, m.workload_ratio, m.responsibility, m.join_date,
+        m.create_by, m.create_time, m.update_by, m.update_time
+    </sql>
+
+    <select id="selectMemberList" resultMap="MemberResult">
+        select
+        <include refid="columns"/>,
+        u.username,
+        u.real_name,
+        d.dept_name
+        from research_project_member m
+        left join sys_user u on m.user_id = u.user_id
+        left join sys_dept d on u.dept_id = d.dept_id
+        where m.project_id = #{projectId}
+        order by m.create_time desc
+    </select>
+
+</mapper>
+

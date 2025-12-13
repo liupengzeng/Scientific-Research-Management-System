@@ -429,7 +429,7 @@
 
 ### Phase 2.5: 登录与认证
 
-**状态**: ✅ 已完成  (100%)  
+**状态**: ✅ 已完成 (100%)  
 **优先级**: P0  
 **预计工时**: 2-3 天
 
@@ -482,7 +482,7 @@
 
 ### Phase 2.6: 操作日志
 
-**状态**: ✅ 已完成  
+**状态**: ✅ 已完成 (100%)  
 **优先级**: P2  
 **预计工时**: 2-3 天
 
@@ -527,20 +527,20 @@
 
 ### Phase 3.1: 项目类型管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成 (100%)  
 **优先级**: P1  
 **预计工时**: 1-2 天
 
 #### 任务清单
 
-- [ ] **TASK-3.1.1**: 后端 - 项目类型实体与数据层
+- [x] **TASK-3.1.1**: 后端 - 项目类型实体与数据层
 
   - 创建 `ResearchProjectType` 实体类
   - 创建 `ResearchProjectTypeMapper` 接口
   - **文件路径**: `research/domain/`, `research/mapper/`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-3.1.2**: 后端 - 项目类型业务与控制器
+- [x] **TASK-3.1.2**: 后端 - 项目类型业务与控制器
 
   - 创建 `ResearchProjectTypeService` 和实现类
   - 创建 `ResearchProjectTypeController`
@@ -549,7 +549,7 @@
   - **API 路径**: `/api/research/projectType`
   - **验收标准**: 项目类型管理 API 可用
 
-- [ ] **TASK-3.1.3**: 前端 - 项目类型管理页面
+- [x] **TASK-3.1.3**: 前端 - 项目类型管理页面
   - 创建 `views/research/projectType/index.vue`
   - 实现项目类型列表、新增、编辑、删除
   - **文件路径**: `src/views/research/projectType/`
@@ -559,13 +559,13 @@
 
 ### Phase 3.2: 项目基础功能
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成 (100%)  
 **优先级**: P0  
 **预计工时**: 4-5 天
 
 #### 任务清单
 
-- [ ] **TASK-3.2.1**: 后端 - 项目实体与数据层
+- [x] **TASK-3.2.1**: 后端 - 项目实体与数据层
 
   - 创建 `ResearchProject` 实体类
   - 创建 `ResearchProjectMapper` 接口
@@ -574,7 +574,7 @@
   - **文件路径**: `research/domain/`, `research/mapper/`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-3.2.2**: 后端 - 项目业务逻辑层
+- [x] **TASK-3.2.2**: 后端 - 项目业务逻辑层
 
   - 创建 `ResearchProjectService` 接口
   - 创建 `ResearchProjectServiceImpl` 实现类
@@ -585,7 +585,7 @@
   - **文件路径**: `research/service/`
   - **验收标准**: 项目业务逻辑完整
 
-- [ ] **TASK-3.2.3**: 后端 - 项目控制器
+- [x] **TASK-3.2.3**: 后端 - 项目控制器
 
   - 创建 `ResearchProjectController`
   - 实现项目列表查询（分页，支持多条件筛选）
@@ -598,7 +598,7 @@
   - **API 路径**: `/api/research/project`
   - **验收标准**: 项目管理 API 可用
 
-- [ ] **TASK-3.2.4**: 前端 - 项目列表页面
+- [x] **TASK-3.2.4**: 前端 - 项目列表页面
 
   - 创建 `views/research/project/index.vue`
   - 实现项目列表（表格，支持分页、筛选）
@@ -607,7 +607,7 @@
   - **文件路径**: `src/views/research/project/`
   - **验收标准**: 项目列表页面可用
 
-- [ ] **TASK-3.2.5**: 前端 - 项目新增/编辑页面
+- [x] **TASK-3.2.5**: 前端 - 项目新增/编辑页面
   - 创建 `views/research/project/form.vue`
   - 实现项目表单（项目名称、类型、负责人、预算等）
   - 实现表单验证
@@ -620,29 +620,30 @@
 
 ### Phase 3.3: 项目审批流程
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 3-4 天
 
 #### 任务清单
 
-- [ ] **TASK-3.3.1**: 后端 - 审批记录实体与数据层
+- [x] **TASK-3.3.1**: 后端 - 审批记录实体与数据层
 
   - 创建 `ResearchProjectApproval` 实体类
   - 创建 `ResearchProjectApprovalMapper` 接口
+  - 创建 `ResearchProjectApprovalMapper.xml` 映射文件
   - **文件路径**: `research/domain/`, `research/mapper/`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-3.3.2**: 后端 - 项目审批业务逻辑
+- [x] **TASK-3.3.2**: 后端 - 项目审批业务逻辑
 
   - 在 `ResearchProjectService` 中添加审批方法
   - 实现项目审批（通过/驳回）
-  - 实现多级审批流程（可选）
-  - 实现项目立项（审批通过后自动立项，生成项目编号）
+  - 实现多级审批流程（支持多级审批，通过 finalFlag 标识最终审批）
+  - 实现项目立项（审批通过后自动立项，驳回后回到草稿状态）
   - **文件路径**: `research/service/`
   - **验收标准**: 审批业务逻辑完整
 
-- [ ] **TASK-3.3.3**: 后端 - 项目审批接口
+- [x] **TASK-3.3.3**: 后端 - 项目审批接口
 
   - 在 `ResearchProjectController` 中添加审批接口
   - 实现审批通过接口
@@ -651,7 +652,7 @@
   - **API 路径**: `/api/research/project/approve`
   - **验收标准**: 审批接口可用
 
-- [ ] **TASK-3.3.4**: 前端 - 项目审批页面
+- [x] **TASK-3.3.4**: 前端 - 项目审批页面
   - 创建 `views/research/project/approval.vue`
   - 实现待审批项目列表
   - 实现审批对话框（通过/驳回，填写审批意见）
@@ -663,51 +664,57 @@
 
 ### Phase 3.4: 项目中检与结题
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P1  
 **预计工时**: 3-4 天
 
 #### 任务清单
 
-- [ ] **TASK-3.4.1**: 后端 - 项目检查记录实体
+- [x] **TASK-3.4.1**: 后端 - 项目检查记录实体
 
   - 创建 `ResearchProjectCheck` 实体类（中检记录）
   - 创建 `ResearchProjectFinal` 实体类（结题记录）
-  - 创建对应的 Mapper 接口
+  - 创建对应的 Mapper 接口和 XML 映射文件
+  - 更新 SQL 文件，添加 `research_project_check` 和 `research_project_final` 表
   - **文件路径**: `research/domain/`, `research/mapper/`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-3.4.2**: 后端 - 项目中检与结题业务逻辑
+- [x] **TASK-3.4.2**: 后端 - 项目中检与结题业务逻辑
 
   - 在 `ResearchProjectService` 中添加中检和结题方法
-  - 实现项目中检记录提交
-  - 实现项目结题材料提交
-  - 实现项目结题验收（状态改为已结题）
+  - 实现项目中检记录提交（状态流转：in_progress -> mid_check）
+  - 实现项目结题材料提交（状态流转：mid_check/in_progress -> completed）
+  - 实现项目结题验收（状态流转：completed -> closed，驳回回到 mid_check）
+  - 实现项目启动功能（approved -> in_progress）
   - **文件路径**: `research/service/`
   - **验收标准**: 中检和结题业务逻辑完整
 
-- [ ] **TASK-3.4.3**: 后端 - 项目中检与结题接口
+- [x] **TASK-3.4.3**: 后端 - 项目中检与结题接口
 
   - 在 `ResearchProjectController` 中添加相关接口
   - 实现中检记录提交接口
   - 实现结题材料提交接口
   - 实现结题验收接口
-  - **API 路径**: `/api/research/project/midCheck`, `/api/research/project/finalize`
+  - 实现项目启动接口
+  - 实现 MinIO 文件上传接口
+  - **API 路径**: `/api/research/project/midCheck`, `/api/research/project/finalize`, `/api/research/project/upload`
   - **验收标准**: 中检和结题接口可用
 
-- [ ] **TASK-3.4.4**: 前端 - 项目中检页面
+- [x] **TASK-3.4.4**: 前端 - 项目中检页面
 
   - 创建 `views/research/project/midCheck.vue`
   - 实现中检报告表单
-  - 实现中检材料上传
+  - 实现中检材料上传（MinIO）
+  - 实现中检记录列表和详情查看
   - **文件路径**: `src/views/research/project/`
   - **验收标准**: 项目中检页面可用
 
-- [ ] **TASK-3.4.5**: 前端 - 项目结题页面
+- [x] **TASK-3.4.5**: 前端 - 项目结题页面
   - 创建 `views/research/project/finalize.vue`
   - 实现结题材料表单
-  - 实现结题材料上传
-  - 实现结题验收
+  - 实现结题材料上传（MinIO）
+  - 实现结题验收功能
+  - 实现结题记录列表和详情查看
   - **文件路径**: `src/views/research/project/`
   - **验收标准**: 项目结题页面可用
 
@@ -715,32 +722,37 @@
 
 ### Phase 3.5: 项目成员管理
 
-**状态**: ⏳ 待开始  
+**状态**: ✅ 已完成  
 **优先级**: P2  
 **预计工时**: 2-3 天
 
 #### 任务清单
 
-- [ ] **TASK-3.5.1**: 后端 - 项目成员实体与数据层
+- [x] **TASK-3.5.1**: 后端 - 项目成员实体与数据层
 
   - 创建 `ResearchProjectMember` 实体类
-  - 创建 `ResearchProjectMemberMapper` 接口
+  - 创建 `ResearchProjectMemberMapper` 接口和 XML 映射文件
+  - 实现关联查询（包含用户和部门信息）
   - **文件路径**: `research/domain/`, `research/mapper/`
   - **验收标准**: 实体类和 Mapper 可用
 
-- [ ] **TASK-3.5.2**: 后端 - 项目成员业务与接口
+- [x] **TASK-3.5.2**: 后端 - 项目成员业务与接口
 
-  - 在 `ResearchProjectService` 中添加成员管理方法
+  - 创建 `ResearchProjectMemberService` 和实现类
   - 在 `ResearchProjectController` 中添加成员管理接口
-  - 实现成员添加/删除
-  - 实现成员角色分配
+  - 实现成员添加/删除/更新
+  - 实现成员角色分配、工作量比例、承担任务编辑
+  - 实现唯一性校验（同一项目同一用户不能重复添加）
   - **API 路径**: `/api/research/project/member`
   - **验收标准**: 项目成员管理接口可用
 
-- [ ] **TASK-3.5.3**: 前端 - 项目成员管理
-  - 在项目详情页面添加成员管理功能
-  - 实现成员列表展示
-  - 实现成员添加/删除对话框
+- [x] **TASK-3.5.3**: 前端 - 项目成员管理
+  - 创建项目详情页面 `detail.vue`，包含基本信息 Tab 和成员管理 Tab
+  - 实现成员列表展示（姓名、用户名、部门、角色、工作量、任务、加入日期）
+  - 实现成员添加对话框（仅显示教师用户，角色可配置）
+  - 实现成员信息编辑（角色、工作量、任务可在线编辑）
+  - 实现成员删除功能
+  - 在项目列表页面添加"详情"按钮
   - **文件路径**: `src/views/research/project/`
   - **验收标准**: 项目成员管理功能可用
 
@@ -1176,7 +1188,12 @@
   - Phase 2.4: ✅ 已完成 (100%)
   - Phase 2.5: ✅ 已完成 (100%)
   - Phase 2.6: ✅ 已完成 (100%)
-- **第三阶段**: ⏳ 待开始 (0%)
+- **第三阶段**: 🔄 进行中 (80%)
+  - Phase 3.1: ✅ 已完成 (100%)
+  - Phase 3.2: ✅ 已完成 (100%)
+  - Phase 3.3: ✅ 已完成 (100%)
+  - Phase 3.4: ✅ 已完成 (100%)
+  - Phase 3.5: ✅ 已完成 (100%)
 - **第四阶段**: ⏳ 待开始 (0%)
 - **第五阶段**: ⏳ 待开始 (0%)
 - **第六阶段**: ⏳ 待开始 (0%)
@@ -1189,12 +1206,17 @@
 - Phase 2.2 用户管理（后端 API + 前端页面）
 - Phase 2.3 角色管理（后端 API + 前端页面，含菜单分配）
 - Phase 2.4 菜单与权限管理（后端 CRUD、角色菜单分配；前端菜单管理页）
-- Phase 2.5 登录与认证完善（路由守卫、权限指令联动）
- - Phase 2.6 操作日志（后端实体/Mapper/AOP切面/查询接口 + 前端页面）
+- Phase 2.5 登录与认证完善（路由守卫与过期处理完成）
+- Phase 2.6 操作日志（后端实体/Mapper/XML/切面/接口与前端页面完成）
+- Phase 3.1 项目类型管理（后端实体/Mapper/Service/Controller + 前端页面/接口完成）
+- Phase 3.2 项目基础功能（后端实体/Mapper/XML/Service/Controller + 前端列表/表单/提交完成）
+- Phase 3.3 项目审批流程（后端审批实体/Mapper/XML/Service + 审批接口 + 前端审批页面/记录查看完成，支持多级审批）
+- Phase 3.4 项目中检与结题（后端中检/结题实体/Mapper/XML/Service + 中检/结题/验收接口 + MinIO文件上传 + 前端中检/结题页面完成，状态流转完整）
+- Phase 3.5 项目成员管理（后端成员实体/Mapper/XML/Service + 成员管理接口 + 前端项目详情页Tab/成员管理完成，支持角色/工作量/任务编辑，仅显示教师用户）
 
 ### 进行中任务
 
-- （空）
+- （无）
 
 ### 已完成功能模块
 
@@ -1229,26 +1251,8 @@
   - 验证并修复 vite.config.js 配置
   - API 代理、路径别名、Element Plus 自动导入均配置正确
   - 修复样式文件引用问题
-- 创建前端配置验证说明文档
+  - 创建前端配置验证说明文档
 
-### 2025-11-17
-
-- ✅ 完成 **TASK-2.5.5**：前端路由守卫完善（Token 过期自动跳转登录、未登录拦截）。
-- 涉及文件：`research-frontend/src/utils/auth.js`（新增 `isTokenExpired`）、`research-frontend/src/router/index.js`（前置守卫过期校验与跳转）。
-- 验收结论：过期 Token 导航时自动跳转登录页；未登录访问非白名单路由被拦截；与 `utils/request.js` 的 401 处理互补。
-
-#### Phase 2.6 执行进度
-
-- ✅ **TASK-2.6.1**：后端操作日志实体与数据层
-  - 代码：`system/domain/SysOperationLog.java`、`system/mapper/SysOperationLogMapper.java`、`resources/mapper/system/SysOperationLogMapper.xml`
-- ✅ **TASK-2.6.2**：后端操作日志 AOP 切面
-  - 代码：`common/annotation/Log.java`、`framework/web/LogAspect.java`
-- ✅ **TASK-2.6.3**：后端操作日志查询接口
-  - 代码：`system/controller/SysOperationLogController.java`
-  - API：`GET /api/system/operationLog/list`、`GET /api/system/operationLog/{logId}`、`DELETE /api/system/operationLog/{logIds}`
-- ✅ **TASK-2.6.4**：前端操作日志页面
-  - 代码：`research-frontend/src/views/system/operationLog/index.vue`、`src/api/operationLog.js`
-  - 路由：`/system/operationLog`
 #### Phase 1.2 执行进度
 
 - ✅ **TASK-1.2.1**: 完成 Spring Security + JWT 认证框架

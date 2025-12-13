@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.ResearchProjectFinalMapper">
+
+    <resultMap id="FinalResult" type="com.university.research.research.domain.ResearchProjectFinal">
+        <id property="id" column="id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="finalTitle" column="final_title"/>
+        <result property="finalContent" column="final_content"/>
+        <result property="attachment" column="attachment"/>
+        <result property="submitDate" column="submit_date"/>
+        <result property="acceptStatus" column="accept_status"/>
+        <result property="comment" column="comment"/>
+        <result property="acceptorId" column="acceptor_id"/>
+        <result property="acceptorName" column="acceptor_name"/>
+        <result property="acceptDate" column="accept_date"/>
+        <result property="createBy" column="create_by"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateBy" column="update_by"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="columns">
+        id, project_id, final_title, final_content, attachment, submit_date, accept_status, comment,
+        acceptor_id, acceptor_name, accept_date, create_by, create_time, update_by, update_time
+    </sql>
+
+    <select id="selectFinalList" resultMap="FinalResult">
+        select
+        <include refid="columns"/>
+        from research_project_final
+        <where>
+            <if test="projectId != null">
+                and project_id = #{projectId}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+</mapper>
+

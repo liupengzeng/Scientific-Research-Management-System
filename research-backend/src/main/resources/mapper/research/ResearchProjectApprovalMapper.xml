@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.ResearchProjectApprovalMapper">
+
+    <resultMap id="ApprovalResult" type="com.university.research.research.domain.ResearchProjectApproval">
+        <id property="id" column="id"/>
+        <result property="projectId" column="project_id"/>
+        <result property="decision" column="decision"/>
+        <result property="comment" column="comment"/>
+        <result property="approverId" column="approver_id"/>
+        <result property="approverName" column="approver_name"/>
+        <result property="finalFlag" column="final_flag"/>
+        <result property="createTime" column="create_time"/>
+        <result property="updateTime" column="update_time"/>
+    </resultMap>
+
+    <sql id="columns">
+        id, project_id, decision, comment, approver_id, approver_name, final_flag, create_time, update_time
+    </sql>
+
+    <select id="selectApprovalList" resultMap="ApprovalResult">
+        select
+        <include refid="columns"/>
+        from research_project_approval
+        <where>
+            <if test="q != null">
+                <if test="q.projectId != null">
+                    and project_id = #{q.projectId}
+                </if>
+                <if test="q.decision != null and q.decision != ''">
+                    and decision = #{q.decision}
+                </if>
+                <if test="q.approverId != null">
+                    and approver_id = #{q.approverId}
+                </if>
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+
+</mapper>
+

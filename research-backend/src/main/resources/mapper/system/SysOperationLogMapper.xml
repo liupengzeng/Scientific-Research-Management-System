@@ -1,4 +1,86 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.system.mapper.SysOperationLogMapper">
+
+    <resultMap id="SysOperationLogResult" type="com.university.research.system.domain.SysOperationLog">
+        <id property="logId" column="log_id"/>
+        <result property="title" column="title"/>
+        <result property="businessType" column="business_type"/>
+        <result property="method" column="method"/>
+        <result property="requestMethod" column="request_method"/>
+        <result property="operatorType" column="operator_type"/>
+        <result property="userId" column="user_id"/>
+        <result property="realName" column="real_name"/>
+        <result property="deptName" column="dept_name"/>
+        <result property="requestUrl" column="request_url"/>
+        <result property="requestLocation" column="request_location"/>
+        <result property="requestParam" column="request_param"/>
+        <result property="responseResult" column="response_result"/>
+        <result property="status" column="status"/>
+        <result property="errorMsg" column="error_msg"/>
+        <result property="operationTime" column="operation_time"/>
+    </resultMap>
+
+    <sql id="selectColumns">
+        log_id, title, business_type, method, request_method, operator_type, user_id, real_name, dept_name,
+        request_url, request_location, request_param, response_result, status, error_msg, operation_time
+    </sql>
+
+    <select id="selectLogList" resultMap="SysOperationLogResult">
+        select
+        <include refid="selectColumns"/>
+        from sys_operation_log
+        <where>
+            <if test="log != null">
+                <if test="log.title != null and log.title != ''">
+                    and title like concat('%', #{log.title}, '%')
+                </if>
+                <if test="log.businessType != null">
+                    and business_type = #{log.businessType}
+                </if>
+                <if test="log.status != null">
+                    and status = #{log.status}
+                </if>
+                <if test="log.userId != null">
+                    and user_id = #{log.userId}
+                </if>
+                <if test="log.beginTime != null">
+                    and operation_time &gt;= #{log.beginTime}
+                </if>
+                <if test="log.endTime != null">
+                    and operation_time &lt;= #{log.endTime}
+                </if>
+            </if>
+        </where>
+        order by operation_time desc
+    </select>
+
+    <select id="selectById" resultMap="SysOperationLogResult">
+        select
+        <include refid="selectColumns"/>
+        from sys_operation_log
+        where log_id = #{logId}
+    </select>
+
+    <insert id="insertLog" useGeneratedKeys="true" keyProperty="logId">
+        insert into sys_operation_log
+        (title, business_type, method, request_method, operator_type, user_id, real_name, dept_name,
+         request_url, request_location, request_param, response_result, status, error_msg, operation_time)
+        values
+        (#{title}, #{businessType}, #{method}, #{requestMethod}, #{operatorType}, #{userId}, #{realName}, #{deptName},
+         #{requestUrl}, #{requestLocation}, #{requestParam}, #{responseResult}, #{status}, #{errorMsg}, #{operationTime})
+    </insert>
+
+    <delete id="deleteByIds">
+        delete from sys_operation_log
+        where log_id in
+        <foreach collection="ids" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+</mapper>
+<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">

@@ -9,7 +9,7 @@ import 'nprogress/nprogress.css'
 NProgress.configure({ showSpinner: false })
 
 // 白名单路由（不需要登录即可访问）
-const whiteList = ['/login', '/404', '/401']
+const whiteList = ['/login', '/404', '/401', '/redirect']
 
 // 常量路由（固定路由，不需要权限）
 export const constantRoutes = [
@@ -60,12 +60,6 @@ export const constantRoutes = [
         meta: { title: '用户管理', icon: 'User' }
       },
       {
-        path: 'system/operationLog',
-        name: 'OperationLog',
-        component: () => import('@/views/system/operationLog/index.vue'),
-        meta: { title: '操作日志', icon: 'Document' }
-      },
-      {
         path: 'profile',
         name: 'Profile',
         component: () => import('@/views/profile/index.vue'),
@@ -91,6 +85,7 @@ router.beforeEach(async (to, from, next) => {
   const hasToken = getToken()
 
   if (hasToken) {
+    // token 本地过期直接清理并跳转登录
     if (isTokenExpired(hasToken)) {
       const userStore = useUserStore()
       await userStore.logout()
@@ -98,6 +93,7 @@ router.beforeEach(async (to, from, next) => {
       NProgress.done()
       return
     }
+
     // 已登录
     if (to.path === '/login') {
       // 如果已登录，跳转到首页
@@ -120,11 +116,6 @@ router.beforeEach(async (to, from, next) => {
           // 生成可访问的路由
           const permissionStore = usePermissionStore()
           const accessRoutes = await permissionStore.generateRoutes(roles)
-
-          // 动态添加路由
-          accessRoutes.forEach(route => {
-            router.addRoute(route)
-          })
 
           // 设置replace: true，这样导航就不会留下历史记录
           next({ ...to, replace: true })

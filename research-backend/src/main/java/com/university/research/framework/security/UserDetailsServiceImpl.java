@@ -68,14 +68,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                                 String[] adminPerms = {
                                         "system:user:query", "system:user:add", "system:user:edit",
                                         "system:user:remove", "system:user:list", "system:user:resetPwd",
-                                        "system:dept:list", "system:role:list", "system:menu:list","system:role:query",
-                                        "system:role:add", "system:role:edit", "system:role:remove", "system:menu:list",
-                                        "system:menu:add", "system:menu:edit", "system:menu:remove", "system:dept:list",
-                                        "system:menu:query", "system:dept:add", "system:dept:edit", "system:dept:remove",
-                                        "system:dept:query","system:operationLog:list", "system:operationLog:query",
-                                        "system:operationLog:remove",
-
-
+                                        "system:dept:list", "system:role:list", "system:menu:list"
                                 };
                                 for (String p : adminPerms) {
                                     roleAuthorities.add(new SimpleGrantedAuthority(p));

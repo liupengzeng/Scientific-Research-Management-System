@@ -144,7 +144,8 @@ CREATE TABLE `research_project_type` (
                                          `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
                                          `remark` VARCHAR(500) DEFAULT NULL COMMENT '备注',
                                          PRIMARY KEY (`type_id`),
-                                         UNIQUE KEY `idx_type_code` (`type_code`)
+                                         UNIQUE KEY `idx_type_code` (`type_code`),
+                                         UNIQUE KEY `idx_type_name` (`type_name`)
 ) ENGINE=InnoDB COMMENT='项目类型字典表';
 
 -- 科研项目表
@@ -162,7 +163,7 @@ CREATE TABLE `research_project` (
                                     `start_date` DATE COMMENT '开始日期',
                                     `end_date` DATE COMMENT '结束日期',
                                     `duration` INT COMMENT '研究期限（月）',
-                                    `project_status` VARCHAR(50) DEFAULT 'draft' COMMENT '项目状态（draft:草稿 submitted:已提交 approved:已立项 in_progress:进行中 mid_check:中期检查 completed:已完成 closed:已结题 cancelled:已取消）',
+                                    `project_status` VARCHAR(50) DEFAULT 'draft' COMMENT '项目状态（draft:草稿 submitted:已提交 approved:已立项 in_progress:进行中 mid_check:中期检查 completed:已完成 closed:已结题 cancelled:已取消 rejected:已驳回）',
                                     `keywords` VARCHAR(500) COMMENT '关键词',
                                     `research_content` TEXT COMMENT '研究内容',
                                     `expected_result` TEXT COMMENT '预期成果',
@@ -184,6 +185,65 @@ CREATE TABLE `research_project` (
                                     CONSTRAINT `fk_project_dept` FOREIGN KEY (`dept_id`) REFERENCES `sys_dept` (`dept_id`),
                                     CONSTRAINT `fk_project_type` FOREIGN KEY (`project_type_id`) REFERENCES `research_project_type` (`type_id`)
 ) ENGINE=InnoDB COMMENT='科研项目表';
+
+-- 项目审批记录表
+CREATE TABLE `research_project_approval` (
+                                             `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                             `project_id` BIGINT NOT NULL COMMENT '项目ID',
+                                             `decision` VARCHAR(20) NOT NULL COMMENT '审批结果(approve/reject)',
+                                             `comment` VARCHAR(1000) NOT NULL COMMENT '审批意见',
+                                             `approver_id` BIGINT NOT NULL COMMENT '审批人ID',
+                                             `approver_name` VARCHAR(100) DEFAULT '' COMMENT '审批人名称',
+                                             `final_flag` TINYINT DEFAULT 0 COMMENT '是否终审(1是 0否)',
+                                             `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                             `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                             PRIMARY KEY (`id`),
+                                             KEY `idx_project_id` (`project_id`),
+                                             CONSTRAINT `fk_project_approval` FOREIGN KEY (`project_id`) REFERENCES `research_project` (`project_id`)
+) ENGINE=InnoDB COMMENT='项目审批记录表';
+
+-- 项目中检记录表
+CREATE TABLE `research_project_check` (
+                                          `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                          `project_id` BIGINT NOT NULL COMMENT '项目ID',
+                                          `check_title` VARCHAR(200) NOT NULL COMMENT '中检标题',
+                                          `check_content` TEXT COMMENT '中检内容',
+                                          `attachment` VARCHAR(500) DEFAULT '' COMMENT '附件路径(MinIO)',
+                                          `check_date` DATE COMMENT '中检日期',
+                                          `result_status` VARCHAR(20) DEFAULT 'pending' COMMENT '中检结果状态(pending:待审核 passed:通过 rejected:不通过)',
+                                          `comment` VARCHAR(1000) DEFAULT '' COMMENT '审核意见',
+                                          `create_by` VARCHAR(64) DEFAULT '' COMMENT '创建者',
+                                          `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                          `update_by` VARCHAR(64) DEFAULT '' COMMENT '更新者',
+                                          `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                          PRIMARY KEY (`id`),
+                                          KEY `idx_project_id` (`project_id`),
+                                          KEY `idx_check_date` (`check_date`),
+                                          CONSTRAINT `fk_check_project` FOREIGN KEY (`project_id`) REFERENCES `research_project` (`project_id`)
+) ENGINE=InnoDB COMMENT='项目中检记录表';
+
+-- 项目结题记录表
+CREATE TABLE `research_project_final` (
+                                          `id` BIGINT NOT NULL AUTO_INCREMENT COMMENT '主键',
+                                          `project_id` BIGINT NOT NULL COMMENT '项目ID',
+                                          `final_title` VARCHAR(200) NOT NULL COMMENT '结题标题',
+                                          `final_content` TEXT COMMENT '结题内容',
+                                          `attachment` VARCHAR(500) DEFAULT '' COMMENT '附件路径(MinIO)',
+                                          `submit_date` DATE COMMENT '提交日期',
+                                          `accept_status` VARCHAR(20) DEFAULT 'pending' COMMENT '验收状态(pending:待验收 passed:通过 rejected:不通过)',
+                                          `comment` VARCHAR(1000) DEFAULT '' COMMENT '验收意见',
+                                          `acceptor_id` BIGINT COMMENT '验收人ID',
+                                          `acceptor_name` VARCHAR(100) DEFAULT '' COMMENT '验收人名称',
+                                          `accept_date` DATE COMMENT '验收日期',
+                                          `create_by` VARCHAR(64) DEFAULT '' COMMENT '创建者',
+                                          `create_time` DATETIME DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                          `update_by` VARCHAR(64) DEFAULT '' COMMENT '更新者',
+                                          `update_time` DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                          PRIMARY KEY (`id`),
+                                          KEY `idx_project_id` (`project_id`),
+                                          KEY `idx_submit_date` (`submit_date`),
+                                          CONSTRAINT `fk_final_project` FOREIGN KEY (`project_id`) REFERENCES `research_project` (`project_id`)
+) ENGINE=InnoDB COMMENT='项目结题记录表';
 
 -- 项目成员表
 CREATE TABLE `research_project_member` (
