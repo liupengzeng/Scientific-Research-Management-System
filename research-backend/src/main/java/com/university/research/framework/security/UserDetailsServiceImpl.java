@@ -68,13 +68,22 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                                 String[] adminPerms = {
                                         "system:user:query", "system:user:add", "system:user:edit",
                                         "system:user:remove", "system:user:list", "system:user:resetPwd",
-                                        "system:dept:list", "system:role:list", "system:menu:list"
+                                        "system:dept:list", "system:role:list", "system:menu:list",
+                                        "research:project:approve", "research:project:submit"
                                 };
                                 for (String p : adminPerms) {
                                     roleAuthorities.add(new SimpleGrantedAuthority(p));
                                     log.warn("  添加细粒度权限: {}", p);
                                 }
-                            } else if ("user".equals(roleKeyLower) || "teacher".equals(roleKeyLower)) {
+                            } else if ("teacher".equals(roleKeyLower)) {
+                                roleAuthorities.add(new SimpleGrantedAuthority("research:project:submit"));
+                                log.warn("  添加细粒度权限: research:project:submit");
+                            } else if ("research_group_leader".equals(roleKeyLower)
+                                    || "research_office".equals(roleKeyLower)
+                                    || "college_leader".equals(roleKeyLower)) {
+                                roleAuthorities.add(new SimpleGrantedAuthority("research:project:approve"));
+                                log.warn("  添加细粒度权限: research:project:approve");
+                            } else if ("user".equals(roleKeyLower)) {
                                 roleAuthorities.add(new SimpleGrantedAuthority("system:user:query"));
                                 log.warn("  添加细粒度权限: system:user:query");
                             } else {
