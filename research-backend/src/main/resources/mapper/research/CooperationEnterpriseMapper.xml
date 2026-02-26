@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.CooperationEnterpriseMapper">
+
+    <resultMap id="EnterpriseResult" type="com.university.research.research.domain.CooperationEnterprise">
+        <id property="enterpriseId" column="enterprise_id"/>
+        <result property="enterpriseName" column="enterprise_name"/>
+        <result property="creditCode" column="credit_code"/>
+        <result property="industry" column="industry"/>
+        <result property="contactName" column="contact_name"/>
+        <result property="contactPhone" column="contact_phone"/>
+        <result property="status" column="status"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="selectList" resultMap="EnterpriseResult">
+        select enterprise_id, enterprise_name, credit_code, industry, contact_name, contact_phone, status, create_time
+        from cooperation_enterprise
+        <where>
+            <if test="q != null">
+                <if test="q.enterpriseName != null and q.enterpriseName != ''">
+                    and enterprise_name like concat('%', #{q.enterpriseName}, '%')
+                </if>
+                <if test="q.industry != null and q.industry != ''">
+                    and industry = #{q.industry}
+                </if>
+                <if test="q.status != null and q.status != ''">
+                    and status = #{q.status}
+                </if>
+            </if>
+        </where>
+        order by create_time desc, enterprise_id desc
+    </select>
+</mapper>

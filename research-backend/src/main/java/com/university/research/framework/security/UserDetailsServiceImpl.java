@@ -69,7 +69,12 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                                         "system:user:query", "system:user:add", "system:user:edit",
                                         "system:user:remove", "system:user:list", "system:user:resetPwd",
                                         "system:dept:list", "system:role:list", "system:menu:list",
-                                        "research:project:approve", "research:project:submit"
+                                        "research:project:approve", "research:project:submit",
+                                        "cooperation:enterprise:list", "cooperation:enterprise:query",
+                                        "cooperation:enterprise:add", "cooperation:enterprise:edit", "cooperation:enterprise:remove",
+                                        "cooperation:project:list", "cooperation:project:query", "cooperation:project:add",
+                                        "cooperation:project:edit", "cooperation:project:submit", "cooperation:project:approve",
+                                        "cooperation:project:approve:list", "cooperation:project:remove"
                                 };
                                 for (String p : adminPerms) {
                                     roleAuthorities.add(new SimpleGrantedAuthority(p));
@@ -77,12 +82,23 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                                 }
                             } else if ("teacher".equals(roleKeyLower)) {
                                 roleAuthorities.add(new SimpleGrantedAuthority("research:project:submit"));
-                                log.warn("  添加细粒度权限: research:project:submit");
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:add"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:edit"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:submit"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:list"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:query"));
+                                log.warn("  添加细粒度权限: research/cooperation submit");
                             } else if ("research_group_leader".equals(roleKeyLower)
                                     || "research_office".equals(roleKeyLower)
                                     || "college_leader".equals(roleKeyLower)) {
                                 roleAuthorities.add(new SimpleGrantedAuthority("research:project:approve"));
-                                log.warn("  添加细粒度权限: research:project:approve");
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:approve"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:approve:list"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:list"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:project:query"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:enterprise:list"));
+                                roleAuthorities.add(new SimpleGrantedAuthority("cooperation:enterprise:query"));
+                                log.warn("  添加细粒度权限: research/cooperation approve");
                             } else if ("user".equals(roleKeyLower)) {
                                 roleAuthorities.add(new SimpleGrantedAuthority("system:user:query"));
                                 log.warn("  添加细粒度权限: system:user:query");

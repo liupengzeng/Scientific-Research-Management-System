@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.university.research.research.mapper.CooperationProjectApprovalMapper">
+
+    <resultMap id="ApprovalResult" type="com.university.research.research.domain.CooperationProjectApproval">
+        <id property="approvalId" column="approval_id"/>
+        <result property="coopProjectId" column="coop_project_id"/>
+        <result property="stepNo" column="step_no"/>
+        <result property="approverId" column="approver_id"/>
+        <result property="approverRole" column="approver_role"/>
+        <result property="decision" column="decision"/>
+        <result property="comment" column="comment"/>
+        <result property="finalFlag" column="final_flag"/>
+        <result property="createTime" column="create_time"/>
+    </resultMap>
+
+    <select id="selectByProjectId" resultMap="ApprovalResult">
+        select approval_id, coop_project_id, step_no, approver_id, approver_role, decision, comment, final_flag, create_time
+        from cooperation_project_approval
+        where coop_project_id = #{coopProjectId}
+        order by create_time desc, approval_id desc
+    </select>
+</mapper>
