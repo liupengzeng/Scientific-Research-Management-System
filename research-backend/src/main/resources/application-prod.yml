@@ -18,7 +18,7 @@ spring:
 
 # JWT配置（生产环境应使用更复杂的密钥）
 jwt:
-  secret: ${JWT_SECRET:researchManagementSecretKey2024Production}
+  secret: ${JWT_SECRET}
   expiration: ${JWT_EXPIRATION:86400000}
 
 # 生产环境日志级别
