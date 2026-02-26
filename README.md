@@ -17,6 +17,7 @@
 - 保留审批关联、权限管理与基础 CRUD。
 
 参考文件：
+
 - `docs/开发文档-精简重构说明.md`
 - `research-backend/SQL/research_core_refactor.sql`
 - `research-backend/SQL/cooperation_mvp.sql`
@@ -471,23 +472,19 @@ research-frontend/
 #### 4.2.1 系统管理表
 
 1. **`sys_dept`** (部门表)
-
    - 支持树形结构 (parent_id)
    - 字段: dept_id, parent_id, dept_name, leader, status 等
 
 2. **`sys_user`** (用户表)
-
    - 用户类型: 系统用户/教师 (user_type)
    - 关联部门: dept_id 外键
    - 字段: user_id, username, password, real_name, title, research_direction 等
 
 3. **`sys_role`** (角色表)
-
    - 角色权限字符串: role_key
    - 字段: role_id, role_name, role_key, status 等
 
 4. **`sys_menu`** (菜单权限表)
-
    - 菜单类型: 目录/菜单/按钮 (menu_type)
    - 支持树形结构
    - 权限标识: perms 字段
@@ -651,22 +648,18 @@ research-frontend/
 #### 6.2.1 后端改进
 
 1. **接口版本控制**
-
    - 建议: 在 URL 中添加版本号 (`/api/v1/`)
    - 便于 API 升级和兼容
 
 2. **参数校验**
-
    - 建议: 使用`@Valid`注解 + Hibernate Validator
    - 已在依赖中，需实际应用
 
 3. **日志管理**
-
    - 建议: 统一日志框架 (Logback/SLF4J)
    - 添加操作日志记录 (已在功能需求中)
 
 4. **单元测试**
-
    - 建议: 增加 Service 层和 Controller 层测试
    - 使用 MockMvc 测试 API 接口
 
@@ -677,27 +670,22 @@ research-frontend/
 #### 6.2.2 前端改进
 
 1. **清理 TypeScript 残留**
-
    - 建议: 删除所有 TS 配置文件（见第 7 节）
    - 将`eslint.config.ts`改为`eslint.config.js`
 
 2. **路由守卫**
-
    - 建议: 实现完整的路由守卫逻辑
    - Token 过期自动跳转登录
 
 3. **权限控制**
-
    - 建议: 实现 v-permission 指令
    - 按钮级别权限控制
 
 4. **错误处理**
-
    - 建议: 统一错误提示组件
    - 网络错误、业务错误的友好提示
 
 5. **性能优化**
-
    - 建议:
      - 路由懒加载
      - 组件按需加载
@@ -713,12 +701,10 @@ research-frontend/
 #### 6.2.3 数据库优化
 
 1. **索引优化**
-
    - 建议: 分析慢查询，添加必要索引
    - 复合索引优化联合查询
 
 2. **分库分表**
-
    - 考虑: 如果数据量大，考虑分表策略
    - 建议: 预留分表字段或使用 ShardingSphere
 
@@ -729,17 +715,14 @@ research-frontend/
 #### 6.2.4 安全性增强
 
 1. **密码加密**
-
    - 建议: 使用 BCrypt 等强加密算法
    - 禁止明文存储密码
 
 2. **SQL 注入防护**
-
    - 已做: MyBatis 预编译语句
    - 建议: 避免动态 SQL 拼接
 
 3. **XSS 防护**
-
    - 已做: xss 模块存在
    - 建议: 完善 XSS 过滤规则
 
@@ -750,12 +733,10 @@ research-frontend/
 #### 6.2.5 监控与运维
 
 1. **应用监控**
-
    - 建议: 集成 Actuator 健康检查
    - 添加性能监控 (Micrometer + Prometheus)
 
 2. **日志聚合**
-
    - 建议: 使用 ELK 或类似工具
    - 集中式日志管理
 
@@ -779,7 +760,6 @@ research-frontend/
 ### 7.2 需要修改的文件
 
 1. **`research-frontend/eslint.config.ts`**
-
    - **现状**: 使用 TypeScript 配置 ESLint
    - **需要**: 改为`eslint.config.js`，使用纯 JavaScript 配置
    - **参考配置**:
@@ -846,13 +826,11 @@ research-frontend/
 如果存在设计稿，建议：
 
 1. **设计稿存放位置**:
-
    - `research-frontend/src/assets/design/` (前端设计资源)
    - `docs/design/` (项目级设计文档)
    - 或独立的设计文档目录
 
 2. **设计稿格式**:
-
    - 图片格式: PNG, JPG, SVG
    - 设计工具: Figma, Sketch, Adobe XD 等
    - 标注文档: Markdown 格式的设计说明
